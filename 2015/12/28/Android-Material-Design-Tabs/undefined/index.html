@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android Material Design - Tabs | Shawn&#39;s Blog | Beyond Compare</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="原作者：Ravi Tamada原文地址：http:&#x2F;&#x2F;www.androidhive.info&#x2F;2015&#x2F;09&#x2F;android-material-design-working-with-tabs&#x2F;  Android Design支持库 提供了很好的向后兼容性，在Material Design支持库中的组件中，像Navigation Drawer, FloatingAction Button, S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Material Design - Tabs">
+<meta property="og:url" content="https://goghtsui.github.io/2015/12/28/Android-Material-Design-Tabs/undefined/index.html">
+<meta property="og:site_name" content="Shawn&#39;s Blog | Beyond Compare">
+<meta property="og:description" content="原作者：Ravi Tamada原文地址：http:&#x2F;&#x2F;www.androidhive.info&#x2F;2015&#x2F;09&#x2F;android-material-design-working-with-tabs&#x2F;  Android Design支持库 提供了很好的向后兼容性，在Material Design支持库中的组件中，像Navigation Drawer, FloatingAction Button, S">
+<meta property="og:locale">
+<meta property="og:image" content="http://www.androidhive.info/wp-content/uploads/2015/09/android-material-design-tab-layout.png">
+<meta property="og:image" content="http://www.androidhive.info/wp-content/uploads/2015/09/android-tab-layout-landscape-view.png">
+<meta property="og:image" content="http://www.androidhive.info/wp-content/uploads/2015/09/android-tab-layout-gravity-center.png">
+<meta property="og:image" content="http://www.androidhive.info/wp-content/uploads/2015/09/android-scrollable-tab-layout.png">
+<meta property="og:image" content="http://www.androidhive.info/wp-content/uploads/2015/09/android-scrollable-tab-layout-horizontal.png">
+<meta property="og:image" content="http://www.androidhive.info/wp-content/uploads/2015/09/android-tab-layout-with-icon-and-text.png">
+<meta property="og:image" content="http://www.androidhive.info/wp-content/uploads/2015/09/android-tab-layout-with-only-icons.png">
+<meta property="og:image" content="http://www.androidhive.info/wp-content/uploads/2015/09/android-tab-layout-with-custom-view-icon-and-text.png">
+<meta property="article:published_time" content="2015-12-28T03:51:06.000Z">
+<meta property="article:modified_time" content="2021-01-26T02:34:57.567Z">
+<meta property="article:author" content="xiaofeng">
+<meta property="article:tag" content="Material Design">
+<meta property="article:tag" content="TabLayout">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.androidhive.info/wp-content/uploads/2015/09/android-material-design-tab-layout.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Shawn&#39;s Blog | Beyond Compare" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+      
+<link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          rootUrl: '/',
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+  <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','w7ca3xWstLkz2UvAeyAJ','2.0.0');
+  </script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+<body>
+  <!-- 页面背景 -->
+  
+    <script type="text/javascript" color="232,232,232" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.png" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/" title="Hi Mate"></a></h1>
+        </hgroup>
+
+        
+        
+		    <form>
+                <input type="text" class="st-default-search-input search" id="search" placeholder=" Search...">
+            </form>
+        
+		
+		
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">博客首页</a></li>
+                        
+                            <li><a href="/tags">标签一览</a></li>
+                        
+                            <li><a href="/photo">我的相册</a></li>
+                        
+                            <li><a href="/enjoy">休闲时光</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="mailto:xiaofeng355@sina.com" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/goghtsui" title="github">github</a>
+                            
+                                <a class="fl zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+                            
+                                <a class="fl weibo" target="_blank" href="https://weibo.com/xiaofeng117" title="weibo">weibo</a>
+                            
+                                <a class="fl rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/ARGB/" style="font-size: 10px;">ARGB</a> <a href="/tags/Android-Emulator/" style="font-size: 10px;">Android Emulator</a> <a href="/tags/Android-Studio/" style="font-size: 16.67px;">Android Studio</a> <a href="/tags/Android-Studio-2-3/" style="font-size: 10px;">Android Studio 2.3</a> <a href="/tags/Android-Studio-2-4-Preview/" style="font-size: 10px;">Android Studio 2.4 Preview</a> <a href="/tags/Android-Studio-3-0/" style="font-size: 10px;">Android Studio 3.0</a> <a href="/tags/Android-Studio2-2/" style="font-size: 11.67px;">Android Studio2.2</a> <a href="/tags/Android-Studio/" style="font-size: 10px;">Android-Studio</a> <a href="/tags/Annotations/" style="font-size: 10px;">Annotations</a> <a href="/tags/Bitmap-Config/" style="font-size: 10px;">Bitmap.Config</a> <a href="/tags/ButterKnife/" style="font-size: 10px;">ButterKnife</a> <a href="/tags/CATEGORY-LAUNCHER/" style="font-size: 10px;">CATEGORY_LAUNCHER</a> <a href="/tags/Compile/" style="font-size: 10px;">Compile</a> <a href="/tags/Debug-compile/" style="font-size: 10px;">Debug compile</a> <a href="/tags/EditText/" style="font-size: 10px;">EditText</a> <a href="/tags/Enable-ADB-integration/" style="font-size: 10px;">Enable ADB integration</a> <a href="/tags/Fences/" style="font-size: 10px;">Fences</a> <a href="/tags/Floating-Lables/" style="font-size: 10px;">Floating Lables</a> <a href="/tags/GET-INTENT-FILTERS/" style="font-size: 10px;">GET_INTENT_FILTERS</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/HashTable/" style="font-size: 10px;">HashTable</a> <a href="/tags/InjectView/" style="font-size: 10px;">InjectView</a> <a href="/tags/Instant-Run/" style="font-size: 10px;">Instant Run</a> <a href="/tags/IntDef/" style="font-size: 10px;">IntDef</a> <a href="/tags/Intellij-IDEA/" style="font-size: 10px;">Intellij IDEA</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Log/" style="font-size: 10px;">Log</a> <a href="/tags/MATCH-DEFAULT-ONLY/" style="font-size: 10px;">MATCH_DEFAULT_ONLY</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MarkdownPad/" style="font-size: 10px;">MarkdownPad</a> <a href="/tags/MarkdownX/" style="font-size: 10px;">MarkdownX</a> <a href="/tags/Material-Design/" style="font-size: 15px;">Material Design</a> <a href="/tags/Matrix/" style="font-size: 10px;">Matrix</a> <a href="/tags/Moto-Z/" style="font-size: 10px;">Moto Z</a> <a href="/tags/Moto-Z-Play/" style="font-size: 10px;">Moto Z Play</a> <a href="/tags/OOP%E8%A7%84%E7%BA%A6/" style="font-size: 10px;">OOP规约</a> <a href="/tags/ORM%E6%98%A0%E5%B0%84/" style="font-size: 10px;">ORM映射</a> <a href="/tags/Parcelable/" style="font-size: 10px;">Parcelable</a> <a href="/tags/Provided/" style="font-size: 10px;">Provided</a> <a href="/tags/Quick-Boot/" style="font-size: 10px;">Quick Boot</a> <a href="/tags/Release-compile/" style="font-size: 10px;">Release compile</a> <a href="/tags/Retrofit/" style="font-size: 13.33px;">Retrofit</a> <a href="/tags/SECRET-CODE/" style="font-size: 10px;">SECRET_CODE</a> <a href="/tags/SECRET-CODE-ACTION/" style="font-size: 10px;">SECRET_CODE_ACTION</a> <a href="/tags/SQL%E8%AF%AD%E5%8F%A5/" style="font-size: 10px;">SQL语句</a> <a href="/tags/Serializable/" style="font-size: 10px;">Serializable</a> <a href="/tags/Snackbar/" style="font-size: 10px;">Snackbar</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/StringDef/" style="font-size: 10px;">StringDef</a> <a href="/tags/TabLayout/" style="font-size: 11.67px;">TabLayout</a> <a href="/tags/Terminal/" style="font-size: 10px;">Terminal</a> <a href="/tags/Test-compile/" style="font-size: 10px;">Test compile</a> <a href="/tags/Win10/" style="font-size: 10px;">Win10</a> <a href="/tags/Windows-10/" style="font-size: 10px;">Windows 10</a> <a href="/tags/adb/" style="font-size: 10px;">adb</a> <a href="/tags/annotation/" style="font-size: 10px;">annotation</a> <a href="/tags/bat/" style="font-size: 10px;">bat</a> <a href="/tags/bootloader/" style="font-size: 10px;">bootloader</a> <a href="/tags/cmd/" style="font-size: 10px;">cmd</a> <a href="/tags/devtools-net-cn/" style="font-size: 10px;">devtools.net.cn</a> <a href="/tags/dimens/" style="font-size: 10px;">dimens</a> <a href="/tags/dimens-adapter/" style="font-size: 10px;">dimens adapter</a> <a href="/tags/dm-verify/" style="font-size: 10px;">dm-verify</a> <a href="/tags/enum/" style="font-size: 11.67px;">enum</a> <a href="/tags/fastboot/" style="font-size: 10px;">fastboot</a> <a href="/tags/getDimension/" style="font-size: 10px;">getDimension</a> <a href="/tags/getDimensionPixelOffset/" style="font-size: 10px;">getDimensionPixelOffset</a> <a href="/tags/getDimensionPixelSize/" style="font-size: 10px;">getDimensionPixelSize</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/http%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">http协议</a> <a href="/tags/intern/" style="font-size: 10px;">intern</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jcenter/" style="font-size: 10px;">jcenter</a> <a href="/tags/maven-central/" style="font-size: 10px;">maven central</a> <a href="/tags/openjdk/" style="font-size: 10px;">openjdk</a> <a href="/tags/p3c/" style="font-size: 10px;">p3c</a> <a href="/tags/pacman/" style="font-size: 10px;">pacman</a> <a href="/tags/plugin/" style="font-size: 10px;">plugin</a> <a href="/tags/slidetoshutdown/" style="font-size: 10px;">slidetoshutdown</a> <a href="/tags/swiftype/" style="font-size: 10px;">swiftype</a> <a href="/tags/synchronized/" style="font-size: 10px;">synchronized</a> <a href="/tags/tips-of-the-Day/" style="font-size: 11.67px;">tips of the Day</a> <a href="/tags/xxx-stripped-ap/" style="font-size: 10px;">xxx-stripped.ap_</a> <a href="/tags/%E4%BA%8C%E6%96%B9%E5%BA%93%E8%A7%84%E7%BA%A6/" style="font-size: 10px;">二方库规约</a> <a href="/tags/%E4%BB%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/" style="font-size: 10px;">代码格式</a> <a href="/tags/%E5%86%85%E5%AD%98/" style="font-size: 10px;">内存</a> <a href="/tags/%E5%86%85%E6%A0%B8%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">内核加密</a> <a href="/tags/%E5%8A%A8%E6%80%81%E7%BB%91%E5%AE%9A/" style="font-size: 10px;">动态绑定</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">单元测试</a> <a href="/tags/%E5%8D%A1%E5%88%B7/" style="font-size: 10px;">卡刷</a> <a href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E7%BA%A6/" style="font-size: 10px;">命名规约</a> <a href="/tags/%E5%AE%89%E5%85%A8%E8%A7%84%E7%BA%A6/" style="font-size: 10px;">安全规约</a> <a href="/tags/%E5%B8%B8%E9%87%8F%E5%AE%9A%E4%B9%89/" style="font-size: 10px;">常量定义</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E5%A4%84%E7%90%86/" style="font-size: 10px;">并发处理</a> <a href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 10px;">序列化</a> <a href="/tags/%E5%BA%94%E7%94%A8%E5%88%86%E5%B1%82/" style="font-size: 10px;">应用分层</a> <a href="/tags/%E5%BB%BA%E8%A1%A8%E8%A7%84%E7%BA%A6/" style="font-size: 10px;">建表规约</a> <a href="/tags/%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" style="font-size: 10px;">异常处理</a> <a href="/tags/%E5%BF%AB%E6%8D%B7%E9%94%AE/" style="font-size: 13.33px;">快捷键</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86%E6%96%87%E4%BB%B6/" style="font-size: 10px;">批处理文件</a> <a href="/tags/%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/" style="font-size: 10px;">控制语句</a> <a href="/tags/%E6%97%A5%E5%BF%97%E8%A7%84%E7%BA%A6/" style="font-size: 10px;">日志规约</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%A7%84%E7%BA%A6/" style="font-size: 10px;">服务器规约</a> <a href="/tags/%E6%B2%89%E6%B5%B8%E5%BC%8F%E7%8A%B6%E6%80%81%E6%A0%8F/" style="font-size: 10px;">沉浸式状态栏</a> <a href="/tags/%E6%B3%A8%E9%87%8A%E8%A7%84%E7%BA%A6/" style="font-size: 10px;">注释规约</a> <a href="/tags/%E7%B1%BB%E5%88%9D%E5%A7%8B%E5%8C%96/" style="font-size: 10px;">类初始化</a> <a href="/tags/%E7%B4%A2%E5%BC%95%E8%A7%84%E7%BA%A6/" style="font-size: 10px;">索引规约</a> <a href="/tags/%E7%BA%BF%E5%88%B7/" style="font-size: 10px;">线刷</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 10px;">虚拟机</a> <a href="/tags/%E9%80%82%E9%85%8D/" style="font-size: 10px;">适配</a> <a href="/tags/%E9%87%8D%E5%86%99/" style="font-size: 10px;">重写</a> <a href="/tags/%E9%87%8D%E8%BD%BD/" style="font-size: 11.67px;">重载</a> <a href="/tags/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%E7%BB%88%E6%9E%81%E7%89%88/" style="font-size: 10px;">阿里巴巴Java开发手册终极版</a> <a href="/tags/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89/" style="font-size: 20px;">阿里巴巴Java开发手册（终极版）</a> <a href="/tags/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E7%BB%93%E7%89%88%EF%BC%89/" style="font-size: 18.33px;">阿里巴巴Java开发手册（终结版）</a> <a href="/tags/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E8%A7%84%E7%BA%A6/" style="font-size: 10px;">阿里巴巴Java开发规约</a> <a href="/tags/%E9%9B%86%E5%90%88%E5%A4%84%E7%90%86/" style="font-size: 10px;">集合处理</a> <a href="/tags/%E9%9D%99%E6%80%81%E7%BB%91%E5%AE%9A/" style="font-size: 10px;">静态绑定</a> <a href="/tags/%E9%A9%AC%E5%85%8B%E9%A3%9E%E8%B1%A1/" style="font-size: 10px;">马克飞象</a>
+                    </div>
+                </section>
+                
+                
+                
+
+                
+                
+                <section class="switch-part switch-part3">
+                
+                    <div id="js-aboutme">热爱编程，对各类技术敏感，以不断自我提升为目标；希望能结交各路豪杰，交流经验共同提高，手游上王者、吃鸡欢迎组队！</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me"></a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.png" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me"></a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">博客首页</a></li>
+                
+                    <li><a href="/tags">标签一览</a></li>
+                
+                    <li><a href="/photo">我的相册</a></li>
+                
+                    <li><a href="/enjoy">休闲时光</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="mailto:xiaofeng355@sina.com" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/goghtsui" title="github">github</a>
+                    
+                        <a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+                    
+                        <a class="weibo" target="_blank" href="https://weibo.com/xiaofeng117" title="weibo">weibo</a>
+                    
+                        <a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-Android-Material-Design-Tabs" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/12/28/Android-Material-Design-Tabs/undefined/" class="article-date">
+      <time datetime="2015-12-28T03:51:06.000Z" itemprop="datePublished">2015-12-28</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android Material Design - Tabs
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Material-Design/" rel="tag">Material Design</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TabLayout/" rel="tag">TabLayout</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+		<div class="block" style="text-align: center;">
+<span class="post-count">  ————字数统计 3.9k 字</span>
+<span class="post-count"> | 阅读时长 20 分钟————  </span>
+</div>
+        <blockquote>
+<p>原作者：Ravi Tamada<br>原文地址：<a target="_blank" rel="noopener" href="http://www.androidhive.info/2015/09/android-material-design-working-with-tabs/">http://www.androidhive.info/2015/09/android-material-design-working-with-tabs/</a></p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="http://android-developers.blogspot.in/2015/05/android-design-support-library.html">Android Design支持库</a> 提供了很好的向后兼容性，在Material Design支持库中的组件中，像Navigation Drawer, FloatingAction Button, Snackbar, Tabs, Floating labels ， animation frameworks。在这里我们将学习怎样实现tabs。</p>
+<p>在进一步深入了解之前，我建议先看一下<a target="_blank" rel="noopener" href="https://www.google.co.in/design/spec/components/tabs.html#">tabs的文档</a>，它可以告诉你在实现tabs的时候，什么该做什么不该做。</p>
+<p>这里还有yutube的视频：<a target="_blank" rel="noopener" href="https://youtu.be/6sGhDYYUoBM">到墙外看一看</a></p>
+<h3 id="使用Material"><a href="#使用Material" class="headerlink" title="使用Material"></a>使用Material</h3><p>首先我们创建一个新的项目并且应用Material主题，如果你不知道Material Design，那么可以看看文章<a target="_blank" rel="noopener" href="http://www.androidhive.info/2015/04/android-getting-started-with-material-design/">Material Design入门</a></p>
+<p><strong>1</strong>.在Android Studio中，<strong>File =&gt; New Project</strong>并且填好其它信息去创建一个新项目。</p>
+<p><strong>2</strong>.打开<strong>build.gradle</strong>然后添加支持库<strong>com.android.support:design:23.0.1</strong></p>
+<p><code>build.gradle</code></p>
+<pre><code class="xml">dependencies &#123;
+    compile fileTree(dir: &#39;libs&#39;, include: [&#39;*.jar&#39;])
+    compile &#39;com.android.support:appcompat-v7:23.0.1&#39;
+    compile &#39;com.android.support:design:23.0.1&#39;
+&#125;</code></pre>
+<a id="more"></a>
+
+
+<p><strong>3</strong>.打开位于<strong>res =&gt; values</strong>下的<strong>colors.xml</strong>，并且添加以下颜色值：</p>
+<p><code>colors.xml</code></p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;resources&gt;
+    &lt;color name=&quot;colorPrimary&quot;&gt;#125688&lt;/color&gt;
+    &lt;color name=&quot;colorPrimaryDark&quot;&gt;#125688&lt;/color&gt;
+    &lt;color name=&quot;textColorPrimary&quot;&gt;#FFFFFF&lt;/color&gt;
+    &lt;color name=&quot;windowBackground&quot;&gt;#FFFFFF&lt;/color&gt;
+    &lt;color name=&quot;navigationBarColor&quot;&gt;#000000&lt;/color&gt;
+    &lt;color name=&quot;colorAccent&quot;&gt;#c8e8ff&lt;/color&gt;
+&lt;/resources&gt;</code></pre>
+<p><strong>4</strong>.在<strong>res =&gt; values</strong>下的<strong>dimens.xml</strong>添加以下代码：</p>
+<p><code>dimens.xml</code></p>
+<pre><code class="xml">&lt;resources&gt;
+    &lt;!-- Default screen margins, per the Android Design guidelines. --&gt;
+    &lt;dimen name=&quot;activity_horizontal_margin&quot;&gt;16dp&lt;/dimen&gt;
+    &lt;dimen name=&quot;activity_vertical_margin&quot;&gt;16dp&lt;/dimen&gt;
+    &lt;dimen name=&quot;tab_max_width&quot;&gt;264dp&lt;/dimen&gt;
+    &lt;dimen name=&quot;tab_padding_bottom&quot;&gt;16dp&lt;/dimen&gt;
+    &lt;dimen name=&quot;tab_label&quot;&gt;14sp&lt;/dimen&gt;
+    &lt;dimen name=&quot;custom_tab_layout_height&quot;&gt;72dp&lt;/dimen&gt;
+&lt;/resources&gt;</code></pre>
+<p><strong>5</strong>. 打开<strong>res ⇒ values</strong>下的<strong>styles.xml</strong>，并添加以下主题。在<strong>styles.xml</strong>中这个主题是通用于所有安卓版本的。</p>
+<p><code>styles.xml</code></p>
+<pre><code class="xml">&lt;resources&gt;
+
+    &lt;style name=&quot;MyMaterialTheme&quot; parent=&quot;MyMaterialTheme.Base&quot;&gt;
+
+    &lt;/style&gt;
+
+    &lt;style name=&quot;MyMaterialTheme.Base&quot; parent=&quot;Theme.AppCompat.Light.DarkActionBar&quot;&gt;
+        &lt;item name=&quot;windowNoTitle&quot;&gt;true&lt;/item&gt;
+        &lt;item name=&quot;windowActionBar&quot;&gt;false&lt;/item&gt;
+        &lt;item name=&quot;colorPrimary&quot;&gt;@color/colorPrimary&lt;/item&gt;
+        &lt;item name=&quot;colorPrimaryDark&quot;&gt;@color/colorPrimaryDark&lt;/item&gt;
+        &lt;item name=&quot;colorAccent&quot;&gt;@color/colorAccent&lt;/item&gt;
+    &lt;/style&gt;
+
+&lt;/resources&gt;</code></pre>
+<p><strong>6.</strong> 在<strong>res</strong>下面创建<strong>values-v21</strong>文件夹，然后创建另外一个<strong>styles.xml</strong>，写入以下主题，这个主题是适用于Android 5.0的。</p>
+<p><code>styles.xml</code></p>
+<pre><code class="xml">&lt;resources&gt;
+
+    &lt;style name=&quot;MyMaterialTheme&quot; parent=&quot;MyMaterialTheme.Base&quot;&gt;
+        &lt;item name=&quot;android:windowContentTransitions&quot;&gt;true&lt;/item&gt;
+        &lt;item name=&quot;android:windowAllowEnterTransitionOverlap&quot;&gt;true&lt;/item&gt;
+        &lt;item name=&quot;android:windowAllowReturnTransitionOverlap&quot;&gt;true&lt;/item&gt;
+        &lt;item name=&quot;android:windowSharedElementEnterTransition&quot;&gt;@android:transition/move&lt;/item&gt;
+        &lt;item name=&quot;android:windowSharedElementExitTransition&quot;&gt;@android:transition/move&lt;/item&gt;
+    &lt;/style&gt;
+
+&lt;/resources&gt;</code></pre>
+<p><strong>7.</strong> 最后打开<strong>AndroidManifest.xml</strong>并且修改<strong>android:theme</strong>属性为我们自定义的主题。</p>
+<p><code>AndroidManifest.xml</code></p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    package=&quot;info.androidhive.materialtabs&quot; &gt;
+
+    &lt;application
+        android:allowBackup=&quot;true&quot;
+        android:icon=&quot;@mipmap/ic_launcher&quot;
+        android:label=&quot;@string/app_name&quot;
+        android:theme=&quot;@style/MyMaterialTheme&quot; &gt;
+        &lt;activity
+            android:name=&quot;.activity.MainActivity&quot;
+            android:label=&quot;@string/app_name&quot; &gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+
+                &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+            &lt;/intent-filter&gt;
+        &lt;/activity&gt;
+    &lt;/application&gt;
+&lt;/manifest&gt;</code></pre>
+<p>运行这个应用，通过通知栏的颜色来验证一下Material Design主题。如果你看到通知栏颜色改变了，这就意味着Material Design主题已经被成功使用。</p>
+<p>图例</p>
+<p>现在我们已经有了Material Design主题的应用，接下来让我们开始添加tabs。但是在这之前。我们需要创建一些fragment来协助测试，所有这些fragment只有非常简单的UI，一个TextView而已。</p>
+<p><strong>8.</strong> 在你的包目录下，创建一个fragment，命名为<strong>OneFragment.java</strong>并添加以下代码：</p>
+<p><code>OneFragment.java</code></p>
+<pre><code class="java">package info.androidhive.materialtabs.fragments;
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import info.androidhive.materialtabs.R;
+
+
+public class OneFragment extends Fragment&#123;
+
+    public OneFragment() &#123;
+        // Required empty public constructor
+    &#125;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) &#123;
+        super.onCreate(savedInstanceState);
+    &#125;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) &#123;
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_one, container, false);
+    &#125;
+
+&#125;</code></pre>
+<p><strong>9.</strong> 在<strong>res ⇒ layout</strong>下添加<strong>fragment_one.xml</strong>，写入以下代码：</p>
+<p><code>fragment_one.xml</code></p>
+<pre><code class="xml">&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    tools:context=&quot;info.androidhive.materialtabs.fragments.OneFragment&quot;&gt;
+
+    &lt;TextView
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:text=&quot;@string/one&quot;
+        android:textSize=&quot;40dp&quot;
+        android:textStyle=&quot;bold&quot;
+        android:layout_centerInParent=&quot;true&quot;/&gt;
+
+&lt;/RelativeLayout&gt;</code></pre>
+<p><strong>10.</strong> 同样的，创建一些其它的fragment，并且写入像<strong>OneFragment.java</strong>一样的代码，我已经创建好了<strong>TwoFragment.java</strong>, <strong>ThreeFragment.java</strong>, <strong>FourFragemnt.java</strong>一直到<strong>TenFragment.java</strong></p>
+<h3 id="固定标签"><a href="#固定标签" class="headerlink" title="固定标签"></a>固定标签</h3><p>当tabs是固定数目的时候，你可以使用这个方式。这些tabs固定在适当的位置。在design支持库中，一些新的元素像<strong>CoordinatorLayout</strong>、<strong>AppBarLayout</strong>、<strong>TabLayout</strong>等介绍了很多。我覆盖不到所有的情况，因为这不是本文的目的。</p>
+<p><strong>11</strong>. 打开布局文件<strong>activity_main.xml</strong>并修改为一下代码：</p>
+<p><code>app:tabMode</code> – 定义tab的形式，在这我们定义为<strong>fixed</strong></p>
+<p><code>activity_main.xml</code></p>
+<pre><code class="xml">&lt;android.support.design.widget.CoordinatorLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;android.support.design.widget.AppBarLayout
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:theme=&quot;@style/ThemeOverlay.AppCompat.Dark.ActionBar&quot;&gt;
+
+        &lt;android.support.v7.widget.Toolbar
+            android:id=&quot;@+id/toolbar&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;?attr/actionBarSize&quot;
+            android:background=&quot;?attr/colorPrimary&quot;
+            app:layout_scrollFlags=&quot;scroll|enterAlways&quot;
+            app:popupTheme=&quot;@style/ThemeOverlay.AppCompat.Light&quot; /&gt;
+
+        &lt;android.support.design.widget.TabLayout
+            android:id=&quot;@+id/tabs&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            app:tabMode=&quot;fixed&quot;
+            app:tabGravity=&quot;fill&quot;/&gt;
+    &lt;/android.support.design.widget.AppBarLayout&gt;
+
+    &lt;android.support.v4.view.ViewPager
+        android:id=&quot;@+id/viewpager&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;
+        app:layout_behavior=&quot;@string/appbar_scrolling_view_behavior&quot;  /&gt;
+&lt;/android.support.design.widget.CoordinatorLayout&gt;</code></pre>
+<p><strong>12.</strong> 打开<strong>MainActivity.java</strong> 并作以下修改：</p>
+<p><code>tabLayout.setupWithViewPager()</code> – 适配ViewPager给TabLayout</p>
+<p><code>setupViewPager()</code> – 通过添加适当的fragment来设置tabs的数量和tab的名字</p>
+<p><code>ViewPagerAdapter</code> – 自定义适配器类提供了ViewPager需要的额fragment</p>
+<p><code>MainActivity.java</code></p>
+<pre><code class="java">package info.androidhive.materialtabs.activity;
+
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import info.androidhive.materialtabs.R;
+import info.androidhive.materialtabs.fragments.OneFragment;
+import info.androidhive.materialtabs.fragments.ThreeFragment;
+import info.androidhive.materialtabs.fragments.TwoFragment;
+
+public class MainActivity extends AppCompatActivity &#123;
+
+    private Toolbar toolbar;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) &#123;
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+    &#125;
+
+    private void setupViewPager(ViewPager viewPager) &#123;
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new OneFragment(), &quot;ONE&quot;);
+        adapter.addFragment(new TwoFragment(), &quot;TWO&quot;);
+        adapter.addFragment(new ThreeFragment(), &quot;THREE&quot;);
+        viewPager.setAdapter(adapter);
+    &#125;
+
+    class ViewPagerAdapter extends FragmentPagerAdapter &#123;
+        private final List&lt;Fragment&gt; mFragmentList = new ArrayList&lt;&gt;();
+        private final List&lt;String&gt; mFragmentTitleList = new ArrayList&lt;&gt;();
+
+        public ViewPagerAdapter(FragmentManager manager) &#123;
+            super(manager);
+        &#125;
+
+        @Override
+        public Fragment getItem(int position) &#123;
+            return mFragmentList.get(position);
+        &#125;
+
+        @Override
+        public int getCount() &#123;
+            return mFragmentList.size();
+        &#125;
+
+        public void addFragment(Fragment fragment, String title) &#123;
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        &#125;
+
+        @Override
+        public CharSequence getPageTitle(int position) &#123;
+            return mFragmentTitleList.get(position);
+        &#125;
+    &#125;
+&#125;</code></pre>
+<p>现在运行这个应用，你应该能看到tabs已经显示，并且能够通过滑动在他们之间切换。</p>
+<p><img src="http://www.androidhive.info/wp-content/uploads/2015/09/android-material-design-tab-layout.png" alt="swipe"></p>
+<p><strong>2.1</strong> 屏幕宽度的标签<br>如果你想要标签栏占据整个屏幕的宽度，你需要给TabLayout设置 **app:tabGravity=”fill”**属性。</p>
+<p><img src="http://www.androidhive.info/wp-content/uploads/2015/09/android-tab-layout-landscape-view.png" alt="full"></p>
+<p><strong>2.2</strong> 中心对齐的标签<br>如果你想要你的标签按照水平居中的形式来显示，你需要给TabLayout设置**app:tabGravity=”center”**的属性。</p>
+<p><img src="http://www.androidhive.info/wp-content/uploads/2015/09/android-tab-layout-gravity-center.png" alt="full"></p>
+<h3 id="滚动标签"><a href="#滚动标签" class="headerlink" title="滚动标签"></a>滚动标签</h3><p>当你有很多标签时，并且一个屏幕的空间放不下的时候，你可以使用滑动标签。标签可以滚动，给TabLayout设置**app:tabMode=”scrollable”**即可。</p>
+<p><strong>13.</strong> 打开<strong>activity_main.xml</strong>并且修改<strong>app:tabMode</strong>为<strong>scrollable</strong>。</p>
+<pre><code class="xml">&lt;android.support.design.widget.TabLayout
+            android:id=&quot;@+id/tabs&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            app:tabMode=&quot;scrollable&quot;/&gt;</code></pre>
+<p><strong>14.</strong> 编辑<strong>MainActivity.java</strong>并且添加一些fragment到ViewPager通过**setupViewPager()**方法。我已经添加了10个fragment，这样做之后，你的MainActivity应该像下面这样。</p>
+<p><code>MainActivity.java</code></p>
+<pre><code class="java">package info.androidhive.materialtabs.activity;
+
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity &#123;
+
+    private Toolbar toolbar;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) &#123;
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+    &#125;
+
+    private void setupViewPager(ViewPager viewPager) &#123;
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFrag(new OneFragment(), &quot;ONE&quot;);
+        adapter.addFrag(new TwoFragment(), &quot;TWO&quot;);
+        adapter.addFrag(new ThreeFragment(), &quot;THREE&quot;);
+        adapter.addFrag(new FourFragment(), &quot;FOUR&quot;);
+        adapter.addFrag(new FiveFragment(), &quot;FIVE&quot;);
+        adapter.addFrag(new SixFragment(), &quot;SIX&quot;);
+        adapter.addFrag(new SevenFragment(), &quot;SEVEN&quot;);
+        adapter.addFrag(new EightFragment(), &quot;EIGHT&quot;);
+        adapter.addFrag(new NineFragment(), &quot;NINE&quot;);
+        adapter.addFrag(new TenFragment(), &quot;TEN&quot;);
+        viewPager.setAdapter(adapter);
+    &#125;
+
+    class ViewPagerAdapter extends FragmentPagerAdapter &#123;
+        private final List&lt;Fragment&gt; mFragmentList = new ArrayList&lt;&gt;();
+        private final List&lt;String&gt; mFragmentTitleList = new ArrayList&lt;&gt;();
+
+        public ViewPagerAdapter(FragmentManager manager) &#123;
+            super(manager);
+        &#125;
+
+        @Override
+        public Fragment getItem(int position) &#123;
+            return mFragmentList.get(position);
+        &#125;
+
+        @Override
+        public int getCount() &#123;
+            return mFragmentList.size();
+        &#125;
+
+        public void addFrag(Fragment fragment, String title) &#123;
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        &#125;
+
+        @Override
+        public CharSequence getPageTitle(int position) &#123;
+            return mFragmentTitleList.get(position);
+        &#125;
+    &#125;
+&#125;</code></pre>
+<p>现在如果你再运行你的应用，你就可以看到很多tabs，而且具有欢动功能。 </p>
+<p><img src="http://www.androidhive.info/wp-content/uploads/2015/09/android-scrollable-tab-layout.png" alt="layout"><br><img src="http://www.androidhive.info/wp-content/uploads/2015/09/android-scrollable-tab-layout-horizontal.png" alt="horizontal"></p>
+<h3 id="图文标签"><a href="#图文标签" class="headerlink" title="图文标签"></a>图文标签</h3><p>有时候你可能想要给标签添加图标。此前给标签添加图标是非常繁琐的过程，但是现在有了Material Design支持库，这就变得很容易了。所以你必须要做的就是调用**setIcon()**方法来设置适当的图标，这个图标就可以显示在标签文字前面了。</p>
+<pre><code class="java">tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+tabLayout.getTabAt(1).setIcon(tabIcons[1]);</code></pre>
+<p><strong>15.</strong> 打开<strong>MainActivity.java</strong>并且按照下面来修改代码。在这里我已经添加了一个新的方法**setupTabIcons()**来设置标签的图标。</p>
+<p><code>MainActivity.java</code></p>
+<pre><code class="java">import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity &#123;
+
+    private Toolbar toolbar;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private int[] tabIcons = &#123;
+            R.drawable.ic_tab_favourite,
+            R.drawable.ic_tab_call,
+            R.drawable.ic_tab_contacts
+    &#125;;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) &#123;
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+        setupTabIcons();
+    &#125;
+
+    private void setupTabIcons() &#123;
+        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+    &#125;
+
+    private void setupViewPager(ViewPager viewPager) &#123;
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFrag(new OneFragment(), &quot;ONE&quot;);
+        adapter.addFrag(new TwoFragment(), &quot;TWO&quot;);
+        adapter.addFrag(new ThreeFragment(), &quot;THREE&quot;);
+        viewPager.setAdapter(adapter);
+    &#125;
+
+    class ViewPagerAdapter extends FragmentPagerAdapter &#123;
+        private final List&lt;Fragment&gt; mFragmentList = new ArrayList&lt;&gt;();
+        private final List&lt;String&gt; mFragmentTitleList = new ArrayList&lt;&gt;();
+
+        public ViewPagerAdapter(FragmentManager manager) &#123;
+            super(manager);
+        &#125;
+
+        @Override
+        public Fragment getItem(int position) &#123;
+            return mFragmentList.get(position);
+        &#125;
+
+        @Override
+        public int getCount() &#123;
+            return mFragmentList.size();
+        &#125;
+
+        public void addFrag(Fragment fragment, String title) &#123;
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        &#125;
+
+        @Override
+        public CharSequence getPageTitle(int position) &#123;
+            return mFragmentTitleList.get(position);
+        &#125;
+    &#125;
+&#125;</code></pre>
+<p><img src="http://www.androidhive.info/wp-content/uploads/2015/09/android-tab-layout-with-icon-and-text.png" alt="android-tab-layout-with-icon-and-text"></p>
+<h3 id="图标标签"><a href="#图标标签" class="headerlink" title="图标标签"></a>图标标签</h3><p>仅仅设置图标的选项卡是和图文的选项卡是一样的，只是ViewPagerAdapter类的**getPageTitle()**方法返回值为null即可。</p>
+<p><strong>16.</strong> 打开<strong>MainActivity.java</strong>并按照下面的代码修改**getPageTitle()**方法，接着运行项目。</p>
+<pre><code class="java">
+@Override
+public CharSequence getPageTitle(int position) &#123;
+
+    // return null to display only the icon
+    return null;
+&#125;</code></pre>
+<p><img src="http://www.androidhive.info/wp-content/uploads/2015/09/android-tab-layout-with-only-icons.png" alt="android-tab-layout-with-only-icons"></p>
+<h3 id="自定义图文选项卡"><a href="#自定义图文选项卡" class="headerlink" title="自定义图文选项卡"></a>自定义图文选项卡</h3><p>当默认的选项卡布局不能达到你预期的输出效果时，自定义选项卡就非常实用了。在你自定义选项卡试图的时候，请务必遵循Android选项卡的规范建议。</p>
+<p>当我们设置了图文选项卡时，你能够看到图标和文字是水平居中的，但是如果你想要放置图标在选项卡标签之上，你就必须使用一个自定义的view来完成它。</p>
+<p><strong>17.</strong> 在<strong>res ⇒ values</strong>下面,创建<strong>fonts.xml</strong>文件，并且添加以下字符串值。这个xml文件定义了选项卡中文字所使用的字体。</p>
+<p><code>fonts.xml</code></p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;resources&gt;
+    &lt;string name=&quot;font_fontFamily_medium&quot;&gt;sans-serif&lt;/string&gt;
+&lt;/resources&gt;</code></pre>
+<p><strong>18.</strong> 在<strong>res ⇒ values-v21下面，创建另一个</strong>fonts.xml**文件。</p>
+<p><code>fonts.xml</code></p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;resources&gt;
+    &lt;string name=&quot;font_fontFamily_medium&quot;&gt;sans-serif-medium&lt;/string&gt;
+&lt;/resources&gt;</code></pre>
+<p><strong>19.</strong> 打开<strong>activity_main.xml</strong>并且给TabLayout设置自定义的高度。设置这个高度显得非常重要，因为在选项卡标签上面放置图标需要更多的空间。</p>
+<pre><code class="xml">
+&lt;android.support.design.widget.TabLayout
+           android:id=&quot;@+id/tabs&quot;
+           android:layout_width=&quot;match_parent&quot;
+           android:layout_height=&quot;@dimen/custom_tab_layout_height&quot;
+           app:tabMode=&quot;fixed&quot;
+           app:tabGravity=&quot;fill&quot;/&gt;</code></pre>
+<p><strong>20.</strong> 在<strong>res ⇒ layout</strong>下新建的一个xml文件<strong>custom_tab.xml</strong>，这个文件是用来自定义选项卡布局的。</p>
+<p><code>custom_tab.xml</code></p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;TextView xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:layout_width=&quot;wrap_content&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:id=&quot;@+id/tab&quot;
+    android:textColor=&quot;@color/colorAccent&quot;
+    android:textSize=&quot;@dimen/tab_label&quot;
+    android:fontFamily=&quot;@string/font_fontFamily_medium&quot;/&gt;</code></pre>
+<p><strong>21.</strong> 打开<strong>MainActivity.java</strong>并按照下面的代码做修改。这里你是否注意到setupTabIcon()方法。下面的代码中我已经给每一个选项卡使用了custom_tab.xml布局，。</p>
+<pre><code class="java">TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+tabOne.setText(&quot;ONE&quot;);
+tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_tab_favourite, 0, 0);
+tabLayout.getTabAt(0).setCustomView(tabOne);</code></pre>
+<p><code>MainActivity.java</code></p>
+<pre><code class="java">import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import info.androidhive.materialtabs.R;
+import info.androidhive.materialtabs.fragments.OneFragment;
+import info.androidhive.materialtabs.fragments.ThreeFragment;
+import info.androidhive.materialtabs.fragments.TwoFragment;
+
+public class MainActivity extends AppCompatActivity &#123;
+
+    private Toolbar toolbar;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private int[] tabIcons = &#123;
+            R.drawable.ic_tab_favourite,
+            R.drawable.ic_tab_call,
+            R.drawable.ic_tab_contacts
+    &#125;;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) &#123;
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+        setupTabIcons();
+    &#125;
+
+    private void setupTabIcons() &#123;
+
+        TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        tabOne.setText(&quot;ONE&quot;);
+        tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_tab_favourite, 0, 0);
+        tabLayout.getTabAt(0).setCustomView(tabOne);
+
+        TextView tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        tabTwo.setText(&quot;TWO&quot;);
+        tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_tab_call, 0, 0);
+        tabLayout.getTabAt(1).setCustomView(tabTwo);
+
+        TextView tabThree = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        tabThree.setText(&quot;THREE&quot;);
+        tabThree.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_tab_contacts, 0, 0);
+        tabLayout.getTabAt(2).setCustomView(tabThree);
+    &#125;
+
+    private void setupViewPager(ViewPager viewPager) &#123;
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFrag(new OneFragment(), &quot;ONE&quot;);
+        adapter.addFrag(new TwoFragment(), &quot;TWO&quot;);
+        adapter.addFrag(new ThreeFragment(), &quot;THREE&quot;);
+        viewPager.setAdapter(adapter);
+    &#125;
+
+    class ViewPagerAdapter extends FragmentPagerAdapter &#123;
+        private final List&lt;Fragment&gt; mFragmentList = new ArrayList&lt;&gt;();
+        private final List&lt;String&gt; mFragmentTitleList = new ArrayList&lt;&gt;();
+
+        public ViewPagerAdapter(FragmentManager manager) &#123;
+            super(manager);
+        &#125;
+
+        @Override
+        public Fragment getItem(int position) &#123;
+            return mFragmentList.get(position);
+        &#125;
+
+        @Override
+        public int getCount() &#123;
+            return mFragmentList.size();
+        &#125;
+
+        public void addFrag(Fragment fragment, String title) &#123;
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        &#125;
+
+        @Override
+        public CharSequence getPageTitle(int position) &#123;
+            return mFragmentTitleList.get(position);
+        &#125;
+    &#125;
+&#125;</code></pre>
+<p>现在如果你运行这个程序，你就能看到图标被放置在选项卡标签的上面了。</p>
+<p><img src="http://www.androidhive.info/wp-content/uploads/2015/09/android-tab-layout-with-custom-view-icon-and-text.png" alt="android-tab-layout-with-custom-view-icon-and-text"></p>
+<p>我希望这篇文章对于Material Design支持库的使用，提供了一些非常有用的信息，如果你有任何问题，请在下面回复。</p>
+
+      
+      
+        <div class="page-reward">
+          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang">赏</a></p>
+          <div class="hide_box"></div>
+          <div class="shang_box">
+            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
+            <div class="shang_tit">
+              <p>大吉大利，晚上吃鸡</p>
+            </div>
+            <div class="shang_payimg">
+              <img src="/img/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+            </div>
+              <div class="pay_explain">扫码打赏，你说多少就多少</div>
+            <div class="shang_payselect">
+              
+                <div class="pay_item checked" data-id="alipay">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/alipay.png" alt="支付宝" /></span>
+                </div>
+              
+              
+                <div class="pay_item" data-id="wechat">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信" /></span>
+                </div>
+              
+            </div>
+            <div class="shang_info">
+              <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+        <script type="text/javascript">
+          $(".pay_item").click(function(){
+            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
+            var dataid=$(this).attr('data-id');
+            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
+            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
+          });
+          function dashangToggle(){
+            
+            $(".hide_box").fadeToggle();
+            $(".shang_box").fadeToggle();
+          }
+        </script>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2015/12/28/Android-Material-Design-Tabs/undefined/">Android Material Design - Tabs</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问  的个人博客"></a></p>
+        <p><span>发布时间:</span>2015年12月28日 - 11时51分</p>
+        <p><span>最后更新:</span>2021年01月26日 - 10时34分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2015/12/28/Android-Material-Design-Tabs/undefined/" title="Android Material Design - Tabs">https://goghtsui.github.io/2015/12/28/Android-Material-Design-Tabs/undefined/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://goghtsui.github.io/2015/12/28/Android-Material-Design-Tabs/undefined/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2015/12/30/Android-Material-Design-Floating-Labels-for-EditText/undefined/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Android Material Design - Floating Labels for EditText
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/12/24/Android-Material-Design-Snackbar/undefined/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android Material Design - Snackbar</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Material"><span class="toc-number">1.</span> <span class="toc-text">使用Material</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BA%E5%AE%9A%E6%A0%87%E7%AD%BE"><span class="toc-number">2.</span> <span class="toc-text">固定标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BB%9A%E5%8A%A8%E6%A0%87%E7%AD%BE"><span class="toc-number">3.</span> <span class="toc-text">滚动标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E6%96%87%E6%A0%87%E7%AD%BE"><span class="toc-number">4.</span> <span class="toc-text">图文标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E6%A0%87%E6%A0%87%E7%AD%BE"><span class="toc-number">5.</span> <span class="toc-text">图标标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9B%BE%E6%96%87%E9%80%89%E9%A1%B9%E5%8D%A1"><span class="toc-number">6.</span> <span class="toc-text">自定义图文选项卡</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+        <div id="gitments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+      id: "Mon Dec 28 2015 11:51:06 GMT+0800",
+      owner: 'goghtsui',
+      repo: 'goghtsui.github.io',
+      oauth: {
+        client_id: 'c24ae8995e63819cc6ac',
+        client_secret: '6b8333126a89a30fcc9aea67ba107118f73c20da',
+      },
+    })
+    gitment.render('gitments')
+</script>
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2015/12/30/Android-Material-Design-Floating-Labels-for-EditText/undefined/" title="上一篇: Android Material Design - Floating Labels for EditText">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2015/12/24/Android-Material-Design-Snackbar/undefined/" title="下一篇: Android Material Design - Snackbar">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2021/01/26/Java%E5%90%8C%E6%AD%A5%E4%B9%8Bsynchronized%E5%85%B3%E9%94%AE%E5%AD%97/undefined/">Java同步之synchronized关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/06/Android-%E9%80%82%E9%85%8D%E4%B9%8Bdimens-adapter/undefined/">Android 适配之dimens adapter</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/28/Android-Emulator-%E6%9B%B4%E6%96%B0%E4%BA%86-%E4%BC%A4%E5%AE%B3%E7%88%86%E7%82%B8/undefined/">Android Emulator 更新了 伤害爆炸</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/15/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E8%A7%84%E7%BA%A6%E3%80%8B%E6%8F%92%E4%BB%B6p3c%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/undefined/">《阿里巴巴Java开发规约》插件p3c使用说明</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/25/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B4-1%E5%AE%89%E5%85%A8%E8%A7%84%E7%BA%A6%EF%BC%88%E6%96%B0%E5%A2%9E%EF%BC%89/undefined/">《阿里巴巴Java开发手册（终极版）》4-1安全规约（新增）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/25/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B3-1%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%EF%BC%88%E6%96%B0%E5%A2%9E%EF%BC%89/undefined/">《阿里巴巴Java开发手册（终极版）》3-1单元测试（新增）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/25/Android-Studio-%E4%B9%8B%E4%BE%9D%E8%B5%96%E6%96%B9%E5%BC%8F%E8%AF%A6%E8%A7%A3(Compile,%20Provided...)/undefined/">Android-Studio-之依赖方式详解(Compile, Provided...)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/Android-Studio-%E5%8F%91%E5%B8%83-library-%E5%88%B0-jcenter-%E5%92%8C-maven-central/undefined/">Android Studio 发布 library 到 jcenter 和 maven central</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/05/Moto-Z-Play-%E5%8E%BB%E9%99%A4%E5%86%85%E6%A0%B8%E5%8A%A0%E5%AF%86%E5%92%8Cdm-verify/undefined/">Moto Z Play 去除内核加密和dm-verify</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/Google-%E5%8F%91%E5%B8%83-Android-Studio-3-0-Canary-1/undefined/">Google 发布 Android Studio 3.0 Canary 1</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/10/Windows-10-%E4%BD%BF%E7%94%A8%E4%B9%8B%E8%BF%9B%E9%98%B6%E7%AF%87/undefined/">Windows 10 使用之进阶篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/28/%E5%85%B3%E4%BA%8Ejava-lang-String%E7%9A%84intern-%E6%96%B9%E6%B3%95%E3%80%90%E5%9F%BA%E7%A1%80%E7%AF%87%E3%80%91/undefined/">关于java.lang.String的intern()方法【基础篇】</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/17/Android-Studio-2-4-Preview-1-%E5%8F%91%E5%B8%83%E4%BA%86%EF%BC%81/undefined/">Android Studio 2.4 Preview 1 发布了！</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/Android-Studio-2-3%E5%85%A8%E9%9D%A2%E8%A7%A3%E6%9E%90/undefined/">Android Studio 2.3全面解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/13/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E7%BB%93%E7%89%88%EF%BC%89%E3%80%8B6-3%E4%B9%8B%E6%9C%8D%E5%8A%A1%E5%99%A8/undefined/">《阿里巴巴Java开发手册（终结版）》6-3之服务器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/08/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E7%BB%93%E7%89%88%EF%BC%89%E3%80%8B6-2%E4%B9%8B%E4%BA%8C%E6%96%B9%E5%BA%93%E8%A7%84%E7%BA%A6/undefined/">《阿里巴巴Java开发手册（终结版）》6-2之二方库规约</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/08/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E7%BB%93%E7%89%88%EF%BC%89%E3%80%8B6-1%E4%B9%8B%E5%BA%94%E7%94%A8%E5%88%86%E5%B1%82/undefined/">《阿里巴巴Java开发手册（终结版）》6-1之应用分层</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/03/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E7%BB%93%E7%89%88%EF%BC%89%E3%80%8B5-4%E4%B9%8BORM%E6%98%A0%E5%B0%84/undefined/">《阿里巴巴Java开发手册（终结版）》5-4之ORM映射</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/03/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E7%BB%93%E7%89%88%EF%BC%89%E3%80%8B5-3%E4%B9%8BSQL%E8%AF%AD%E5%8F%A5/undefined/">《阿里巴巴Java开发手册（终结版）》5-3之SQL语句</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E7%BB%93%E7%89%88%EF%BC%89%E3%80%8B5-2%E4%B9%8B%E7%B4%A2%E5%BC%95%E8%A7%84%E7%BA%A6/undefined/">《阿里巴巴Java开发手册（终结版）》5-2之索引规约</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B5-1%E4%B9%8B%E5%BB%BA%E8%A1%A8%E8%A7%84%E7%BA%A6/undefined/">《阿里巴巴Java开发手册（终结版）》5-1之建表规约</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B2-2%E4%B9%8B%E6%97%A5%E5%BF%97%E8%A7%84%E7%BA%A6/undefined/">《阿里巴巴Java开发手册（终极版）》2-2之日志规约</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B2-1%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/undefined/">《阿里巴巴Java开发手册（终极版）》2-1之异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/24/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B1-9%E4%B9%8B%E5%85%B6%E5%AE%83/undefined/">《阿里巴巴Java开发手册（终极版）》1-9之其它</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/24/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B1-8%E4%B9%8B%E6%B3%A8%E9%87%8A%E8%A7%84%E7%BA%A6/undefined/">《阿里巴巴Java开发手册（终极版）》1-8之注释规约</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B1-7%E4%B9%8B%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/undefined/">《阿里巴巴Java开发手册（终极版）》1-7之控制语句</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B1-6%E4%B9%8B%E5%B9%B6%E5%8F%91%E5%A4%84%E7%90%86/undefined/">《阿里巴巴Java开发手册（终极版）》1-6之并发处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B1-5%E4%B9%8B%E9%9B%86%E5%90%88%E5%A4%84%E7%90%86/undefined/">《阿里巴巴Java开发手册（终极版）》1-5之集合处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/20/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B1-4%E4%B9%8BOOP%E8%A7%84%E7%BA%A6/undefined/">《阿里巴巴Java开发手册（终极版）》1-4之OOP规约</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/16/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B1-3%E4%B9%8B%E4%BB%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/undefined/">《阿里巴巴Java开发手册（终极版）》1-3之格式规约</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/15/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B1-2%E4%B9%8B%E5%B8%B8%E9%87%8F%E5%AE%9A%E4%B9%89/undefined/">《阿里巴巴Java开发手册（终极版）》1-2之常量定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/10/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B1-1%E4%B9%8B%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/undefined/">《阿里巴巴Java开发手册（终极版）》1-1之命名规范</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/10/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%E3%80%8B%E4%B9%8B%E7%BB%88%E6%9E%81%E7%89%88%E4%BF%AE%E8%AE%A2%EF%BC%81/undefined/">《阿里巴巴Java开发手册》之终极版修订！</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/19/Java%E5%AF%B9%E8%B1%A1%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E5%88%86%E6%9E%90/undefined/">Java对象内存占用分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/19/Android%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B9%8Benum/undefined/">Android知识点之enum</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/19/Android%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B9%8BTablayout/undefined/">Android知识点之Tanlayout</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/14/Android%E4%B9%8B%E5%BA%94%E7%94%A8%E6%98%AF%E5%90%A6%E6%9C%89%E5%90%AF%E5%8A%A8%E9%A1%B5%E9%9D%A2-%E5%85%B7%E6%9C%89CATEGORY-LAUNCHER%E5%B1%9E%E6%80%A7/undefined/">Android之应用是否有启动页面(具有CATEGORY_LAUNCHER属性)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/14/Android%E5%88%A4%E6%96%AD%E6%9F%90%E4%B8%AA%E5%BA%94%E7%94%A8%E6%98%AF%E5%90%A6%E5%AE%89%E8%A3%85/undefined/">Android判断某个应用是否安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/12/ARGB-8888-ALPHA-8-ARGB-4444-RGB-565%E7%9A%84%E5%8C%BA%E5%88%AB/undefined/">ARGB_8888-ALPHA_8-ARGB_4444-RGB_565的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/Retrofit-1-%E4%B9%8B-log%E5%BE%97%E8%AF%B7%E6%B1%82%E4%B8%8E%E5%93%8D%E5%BA%94/undefined/">Retrofit 1 之 log得请求与响应</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/Retrofit-2-%E4%B9%8B-log%E5%BE%97%E8%AF%B7%E6%B1%82%E4%B8%8E%E5%93%8D%E5%BA%94/undefined/">Retrofit 2 之 log得请求与响应</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/07/Retrofit-1-x%E5%92%8CRetrofit-2-x%E7%9A%84%E4%B8%8D%E5%90%8C/undefined/">Retrofit 1.x和Retrofit 2.x的不同</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/Android%E5%BC%80%E5%8F%91%E4%B9%8B%5B%E6%9A%97%E7%A0%81%5D/undefined/">Android开发之[暗码]</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/19/Android-Studio-Error-running-app-Instant-Run-requires-Tools-Android-Enable-ADB-integration-to-be-enabled/undefined/">Android Studio: Error running app: Instant Run requires 'Tools | Android | Enable ADB integration' to be enabled</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/11/Android-Studio-2-2-%E6%96%B0%E7%89%B9%E6%80%A7/undefined/">Android Studio 2.2 新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/10/Android-Studio%E5%8D%87%E7%B4%9A2-2%E6%89%93%E5%8C%85%E6%8A%A5%E9%94%99-xxx-stripped-ap-specified-for-property-resourceFile-does-not-exist/undefined/">Android Studio升級2.2打包报错 - ...xxx-stripped.ap_ specified for property resourceFile does not exist</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/16/Android-Studio-Intellij-%E7%BF%BB%E8%AF%91%E6%8F%92%E4%BB%B6-Easy%20Translation/undefined/">Android Studio | Intellij 翻译插件 Easy Translation</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/10/%E5%85%B3%E4%BA%8EOpenJDK%E4%BD%A0%E4%BA%86%E8%A7%A3%E5%A4%9A%E5%B0%91%EF%BC%9F/undefined/">关于OpenJDK你了解多少？</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/21/getDimension%E3%80%81getDimensionPixelOffset%E3%80%81getDimensionPixelSize%E5%88%9D%E7%BA%A7%E7%AF%87/undefined/">getDimension、getDimensionPixelOffset、getDimensionPixelSize初级篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/21/Android%E5%88%B7%E6%9C%BA-%E5%91%BD%E4%BB%A4%E7%AF%87/undefined/">Android刷机-命令篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/21/Android%E5%88%B7%E6%9C%BA-%E5%9F%BA%E7%A1%80%E7%AF%87/undefined/">Android刷机-基础篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/Http%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B/undefined/">Http协议简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/01/%E5%AE%9E%E7%94%A8bat%E8%84%9A%E6%9C%AC-%E7%AC%94%E8%AE%B0/undefined/">实用bat脚本[笔记]</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/01/Android%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89actionbar%5B%E7%AC%94%E8%AE%B0%5D/undefined/">Android之自定义actionbar[笔记]</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/19/Java%E4%B9%8BHashMap%E5%92%8CHashTable%E7%9A%84%E4%B8%8D%E5%90%8C/undefined/">Java之HashMap和HashTable的不同</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/19/Android%E4%B9%8BMatrix/undefined/">Android之Matrix</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/31/Android-Material-Design%E5%85%A5%E9%97%A8/undefined/">Android Material Design入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/30/Android-Material-Design-Floating-Labels-for-EditText/undefined/">Android Material Design - Floating Labels for EditText</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/28/Android-Material-Design-Tabs/undefined/">Android Material Design - Tabs</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/24/Android-Material-Design-Snackbar/undefined/">Android Material Design - Snackbar</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/24/Parcelable-vs-Serializable/undefined/">Parcelable vs Serializable</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/23/Android-Studio-Tips-of-the-Day(2)/undefined/">Android Studio Tips of the Day(2)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/22/Android-Studio-Tips-of-the-Day(1)/undefined/">Android Studio Tips of the Day(1)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/09/Java%E7%9A%84%E8%BF%9E%E6%8E%A5%E4%B8%8E%E5%88%9D%E5%A7%8B%E5%8C%96/undefined/">Java的连接与初始化</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/25/%E9%80%9A%E8%BF%87Swiftype%E5%AE%9E%E7%8E%B0hexo%E7%AB%99%E5%86%85%E6%90%9C%E7%B4%A2/undefined/">通过Swiftype实现hexo站内搜索</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/25/Win10-%E5%BF%AB%E6%8D%B7%E9%94%AE%E4%B9%8BWin%E7%BB%84%E5%90%88%E9%94%AE/undefined/">[Win10]快捷键之Win组合键</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/24/%E6%8E%A8%E8%8D%90-Markdown%E7%BC%96%E8%BE%91%E5%99%A8/undefined/">[推荐]Markdown编辑器(PC+手机端)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/24/Java%E4%B9%8B%E9%9D%99%E6%80%81%E7%BB%91%E5%AE%9A%E5%92%8C%E5%8A%A8%E6%80%81%E7%BB%91%E5%AE%9A/undefined/">Java之静态绑定和动态绑定</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/23/Java%E9%87%8D%E8%BD%BD%E5%8C%B9%E9%85%8D%E4%BC%98%E5%85%88%E7%BA%A7/undefined/">Java重载匹配优先级</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/18/Android%E4%B9%8BLog%E6%B7%B7%E6%B7%86/undefined/">Android之Log混淆</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/16/%E8%A7%A3%E5%86%B3Android-Studio%E4%B8%ADTerminal%E6%97%A0%E6%B3%95%E8%BE%93%E5%85%A5%E7%9A%84%E9%97%AE%E9%A2%98/undefined/">解决Android Studio中Terminal无法输入的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/13/Android%E4%B9%8B%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0ButterKnife%E4%B8%AD%E7%9A%84injectView%E7%9A%84%E6%96%B9%E6%A1%88/undefined/">Android之简单实现ButterKnife中的injectView的方案</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2021 xiaofeng
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" rel="external nofollow">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank" rel="external nofollow">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >本站访客量: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span> | </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+				
+                    <span class="post-count"> | 总字数统计：93.5k</span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-70168817-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a76cfedb91334def30cb7ff4264b0c18";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+    <script type="text/javascript">
+      window.onload = function(){
+        document.getElementById("search").onclick = function(){
+            console.log("search")
+            search();
+        }
+      }
+      function search(){
+        (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+        (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+        e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+        })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+        _st('install','w7ca3xWstLkz2UvAeyAJ','2.0.0');
+      }
+    </script>
+
+  </div>
+  <!--  -->
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

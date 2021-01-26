@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android之Matrix | Shawn&#39;s Blog | Beyond Compare</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="原作者： Qiengo源地址： 点击跳转  Matrix的数学原理在Android中，如果你用Matrix进行过图像处理，那么一定知道Matrix这个类。Android中的Matrix是一个3 x 3的矩阵，其内容如下： Matrix的对图像的处理可分为四类基本变换：  Translate - 平移变换 Rotate - 旋转变换 Scale - 缩放变换 Skew - 错切变换  从字面上理解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android之Matrix">
+<meta property="og:url" content="https://goghtsui.github.io/2016/02/19/Android%E4%B9%8BMatrix/undefined/index.html">
+<meta property="og:site_name" content="Shawn&#39;s Blog | Beyond Compare">
+<meta property="og:description" content="原作者： Qiengo源地址： 点击跳转  Matrix的数学原理在Android中，如果你用Matrix进行过图像处理，那么一定知道Matrix这个类。Android中的Matrix是一个3 x 3的矩阵，其内容如下： Matrix的对图像的处理可分为四类基本变换：  Translate - 平移变换 Rotate - 旋转变换 Scale - 缩放变换 Skew - 错切变换  从字面上理解">
+<meta property="og:locale">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_13217092330d9Q.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321709352RQ75.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321709520MmsS.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321709527kmK6.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321709536Otg4.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_132170975189NC.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321709797SBJW.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321709849ZLVc.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_13217100380220.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_13217100952Vqv.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321710153kurQ.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321710301T9nf.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321710398Z3Je.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321710517pb9W.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321710615riwr.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321710625smm5.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321710790633H.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321710798y5L6.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_13217108084B3T.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_13217108954sms.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_13217109074Nv2.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321711018S31a.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321711026LZ03.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321711090fhGd.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321711099Xhak.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321711217oHNz.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321711240gEeT.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321711240gEeT.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321711261E6xG.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_132171128473YK.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321711292jO01.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_13217113506Hb8.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321711502QQ7A.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321711521GZlt.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321711541FJA1.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321711616I9SJ.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321711292jO01.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_132171128473YK.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_13217122673338.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321712352qQRu.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_13217123565Wwz.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_132171250556xp.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321712512Yj1i.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321712644I54M.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_13217126508k4V.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_13217126608wdT.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_132171250556xp.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321712949GjN7.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321712956BNj8.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321712963iNO1.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321713055HOOt.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321713100VIOz.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321713185yKS7.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_13217131941R24.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321713201VRxs.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_132171330766G0.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321713314Dk69.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321713322PeML.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321713502Akg2.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321713509Hz7p.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321713516TUvx.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321713655Qsij.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_13217136824kKR.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_13217136931vl4.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_13217141232rJI.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321714133P0ha.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_13217141417Bi3.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321714261NN3V.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321714269Kqs4.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321714276ai2f.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_13217144950030.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_13217145038hN8.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321714509sBN4.gif">
+<meta property="og:image" content="http://hi.csdn.net/attachment/201111/19/0_1321714645396z.gif">
+<meta property="article:published_time" content="2016-02-19T07:11:37.000Z">
+<meta property="article:modified_time" content="2021-01-26T02:34:57.572Z">
+<meta property="article:author" content="xiaofeng">
+<meta property="article:tag" content="Matrix">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hi.csdn.net/attachment/201111/19/0_13217092330d9Q.gif">
+  
+    <link rel="alternative" href="/atom.xml" title="Shawn&#39;s Blog | Beyond Compare" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+      
+<link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          rootUrl: '/',
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+  <script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+  
+  _st('install','w7ca3xWstLkz2UvAeyAJ','2.0.0');
+  </script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+<body>
+  <!-- 页面背景 -->
+  
+    <script type="text/javascript" color="232,232,232" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.png" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/" title="Hi Mate"></a></h1>
+        </hgroup>
+
+        
+        
+		    <form>
+                <input type="text" class="st-default-search-input search" id="search" placeholder=" Search...">
+            </form>
+        
+		
+		
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">博客首页</a></li>
+                        
+                            <li><a href="/tags">标签一览</a></li>
+                        
+                            <li><a href="/photo">我的相册</a></li>
+                        
+                            <li><a href="/enjoy">休闲时光</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="mailto:xiaofeng355@sina.com" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/goghtsui" title="github">github</a>
+                            
+                                <a class="fl zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+                            
+                                <a class="fl weibo" target="_blank" href="https://weibo.com/xiaofeng117" title="weibo">weibo</a>
+                            
+                                <a class="fl rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/ARGB/" style="font-size: 10px;">ARGB</a> <a href="/tags/Android-Emulator/" style="font-size: 10px;">Android Emulator</a> <a href="/tags/Android-Studio/" style="font-size: 16.67px;">Android Studio</a> <a href="/tags/Android-Studio-2-3/" style="font-size: 10px;">Android Studio 2.3</a> <a href="/tags/Android-Studio-2-4-Preview/" style="font-size: 10px;">Android Studio 2.4 Preview</a> <a href="/tags/Android-Studio-3-0/" style="font-size: 10px;">Android Studio 3.0</a> <a href="/tags/Android-Studio2-2/" style="font-size: 11.67px;">Android Studio2.2</a> <a href="/tags/Android-Studio/" style="font-size: 10px;">Android-Studio</a> <a href="/tags/Annotations/" style="font-size: 10px;">Annotations</a> <a href="/tags/Bitmap-Config/" style="font-size: 10px;">Bitmap.Config</a> <a href="/tags/ButterKnife/" style="font-size: 10px;">ButterKnife</a> <a href="/tags/CATEGORY-LAUNCHER/" style="font-size: 10px;">CATEGORY_LAUNCHER</a> <a href="/tags/Compile/" style="font-size: 10px;">Compile</a> <a href="/tags/Debug-compile/" style="font-size: 10px;">Debug compile</a> <a href="/tags/EditText/" style="font-size: 10px;">EditText</a> <a href="/tags/Enable-ADB-integration/" style="font-size: 10px;">Enable ADB integration</a> <a href="/tags/Fences/" style="font-size: 10px;">Fences</a> <a href="/tags/Floating-Lables/" style="font-size: 10px;">Floating Lables</a> <a href="/tags/GET-INTENT-FILTERS/" style="font-size: 10px;">GET_INTENT_FILTERS</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/HashTable/" style="font-size: 10px;">HashTable</a> <a href="/tags/InjectView/" style="font-size: 10px;">InjectView</a> <a href="/tags/Instant-Run/" style="font-size: 10px;">Instant Run</a> <a href="/tags/IntDef/" style="font-size: 10px;">IntDef</a> <a href="/tags/Intellij-IDEA/" style="font-size: 10px;">Intellij IDEA</a> <a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Log/" style="font-size: 10px;">Log</a> <a href="/tags/MATCH-DEFAULT-ONLY/" style="font-size: 10px;">MATCH_DEFAULT_ONLY</a> <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/MarkdownPad/" style="font-size: 10px;">MarkdownPad</a> <a href="/tags/MarkdownX/" style="font-size: 10px;">MarkdownX</a> <a href="/tags/Material-Design/" style="font-size: 15px;">Material Design</a> <a href="/tags/Matrix/" style="font-size: 10px;">Matrix</a> <a href="/tags/Moto-Z/" style="font-size: 10px;">Moto Z</a> <a href="/tags/Moto-Z-Play/" style="font-size: 10px;">Moto Z Play</a> <a href="/tags/OOP%E8%A7%84%E7%BA%A6/" style="font-size: 10px;">OOP规约</a> <a href="/tags/ORM%E6%98%A0%E5%B0%84/" style="font-size: 10px;">ORM映射</a> <a href="/tags/Parcelable/" style="font-size: 10px;">Parcelable</a> <a href="/tags/Provided/" style="font-size: 10px;">Provided</a> <a href="/tags/Quick-Boot/" style="font-size: 10px;">Quick Boot</a> <a href="/tags/Release-compile/" style="font-size: 10px;">Release compile</a> <a href="/tags/Retrofit/" style="font-size: 13.33px;">Retrofit</a> <a href="/tags/SECRET-CODE/" style="font-size: 10px;">SECRET_CODE</a> <a href="/tags/SECRET-CODE-ACTION/" style="font-size: 10px;">SECRET_CODE_ACTION</a> <a href="/tags/SQL%E8%AF%AD%E5%8F%A5/" style="font-size: 10px;">SQL语句</a> <a href="/tags/Serializable/" style="font-size: 10px;">Serializable</a> <a href="/tags/Snackbar/" style="font-size: 10px;">Snackbar</a> <a href="/tags/String/" style="font-size: 10px;">String</a> <a href="/tags/StringDef/" style="font-size: 10px;">StringDef</a> <a href="/tags/TabLayout/" style="font-size: 11.67px;">TabLayout</a> <a href="/tags/Terminal/" style="font-size: 10px;">Terminal</a> <a href="/tags/Test-compile/" style="font-size: 10px;">Test compile</a> <a href="/tags/Win10/" style="font-size: 10px;">Win10</a> <a href="/tags/Windows-10/" style="font-size: 10px;">Windows 10</a> <a href="/tags/adb/" style="font-size: 10px;">adb</a> <a href="/tags/annotation/" style="font-size: 10px;">annotation</a> <a href="/tags/bat/" style="font-size: 10px;">bat</a> <a href="/tags/bootloader/" style="font-size: 10px;">bootloader</a> <a href="/tags/cmd/" style="font-size: 10px;">cmd</a> <a href="/tags/devtools-net-cn/" style="font-size: 10px;">devtools.net.cn</a> <a href="/tags/dimens/" style="font-size: 10px;">dimens</a> <a href="/tags/dimens-adapter/" style="font-size: 10px;">dimens adapter</a> <a href="/tags/dm-verify/" style="font-size: 10px;">dm-verify</a> <a href="/tags/enum/" style="font-size: 11.67px;">enum</a> <a href="/tags/fastboot/" style="font-size: 10px;">fastboot</a> <a href="/tags/getDimension/" style="font-size: 10px;">getDimension</a> <a href="/tags/getDimensionPixelOffset/" style="font-size: 10px;">getDimensionPixelOffset</a> <a href="/tags/getDimensionPixelSize/" style="font-size: 10px;">getDimensionPixelSize</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/http%E5%8D%8F%E8%AE%AE/" style="font-size: 10px;">http协议</a> <a href="/tags/intern/" style="font-size: 10px;">intern</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/jcenter/" style="font-size: 10px;">jcenter</a> <a href="/tags/maven-central/" style="font-size: 10px;">maven central</a> <a href="/tags/openjdk/" style="font-size: 10px;">openjdk</a> <a href="/tags/p3c/" style="font-size: 10px;">p3c</a> <a href="/tags/pacman/" style="font-size: 10px;">pacman</a> <a href="/tags/plugin/" style="font-size: 10px;">plugin</a> <a href="/tags/slidetoshutdown/" style="font-size: 10px;">slidetoshutdown</a> <a href="/tags/swiftype/" style="font-size: 10px;">swiftype</a> <a href="/tags/synchronized/" style="font-size: 10px;">synchronized</a> <a href="/tags/tips-of-the-Day/" style="font-size: 11.67px;">tips of the Day</a> <a href="/tags/xxx-stripped-ap/" style="font-size: 10px;">xxx-stripped.ap_</a> <a href="/tags/%E4%BA%8C%E6%96%B9%E5%BA%93%E8%A7%84%E7%BA%A6/" style="font-size: 10px;">二方库规约</a> <a href="/tags/%E4%BB%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/" style="font-size: 10px;">代码格式</a> <a href="/tags/%E5%86%85%E5%AD%98/" style="font-size: 10px;">内存</a> <a href="/tags/%E5%86%85%E6%A0%B8%E5%8A%A0%E5%AF%86/" style="font-size: 10px;">内核加密</a> <a href="/tags/%E5%8A%A8%E6%80%81%E7%BB%91%E5%AE%9A/" style="font-size: 10px;">动态绑定</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">单元测试</a> <a href="/tags/%E5%8D%A1%E5%88%B7/" style="font-size: 10px;">卡刷</a> <a href="/tags/%E5%91%BD%E5%90%8D%E8%A7%84%E7%BA%A6/" style="font-size: 10px;">命名规约</a> <a href="/tags/%E5%AE%89%E5%85%A8%E8%A7%84%E7%BA%A6/" style="font-size: 10px;">安全规约</a> <a href="/tags/%E5%B8%B8%E9%87%8F%E5%AE%9A%E4%B9%89/" style="font-size: 10px;">常量定义</a> <a href="/tags/%E5%B9%B6%E5%8F%91%E5%A4%84%E7%90%86/" style="font-size: 10px;">并发处理</a> <a href="/tags/%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 10px;">序列化</a> <a href="/tags/%E5%BA%94%E7%94%A8%E5%88%86%E5%B1%82/" style="font-size: 10px;">应用分层</a> <a href="/tags/%E5%BB%BA%E8%A1%A8%E8%A7%84%E7%BA%A6/" style="font-size: 10px;">建表规约</a> <a href="/tags/%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" style="font-size: 10px;">异常处理</a> <a href="/tags/%E5%BF%AB%E6%8D%B7%E9%94%AE/" style="font-size: 13.33px;">快捷键</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86%E6%96%87%E4%BB%B6/" style="font-size: 10px;">批处理文件</a> <a href="/tags/%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/" style="font-size: 10px;">控制语句</a> <a href="/tags/%E6%97%A5%E5%BF%97%E8%A7%84%E7%BA%A6/" style="font-size: 10px;">日志规约</a> <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%A7%84%E7%BA%A6/" style="font-size: 10px;">服务器规约</a> <a href="/tags/%E6%B2%89%E6%B5%B8%E5%BC%8F%E7%8A%B6%E6%80%81%E6%A0%8F/" style="font-size: 10px;">沉浸式状态栏</a> <a href="/tags/%E6%B3%A8%E9%87%8A%E8%A7%84%E7%BA%A6/" style="font-size: 10px;">注释规约</a> <a href="/tags/%E7%B1%BB%E5%88%9D%E5%A7%8B%E5%8C%96/" style="font-size: 10px;">类初始化</a> <a href="/tags/%E7%B4%A2%E5%BC%95%E8%A7%84%E7%BA%A6/" style="font-size: 10px;">索引规约</a> <a href="/tags/%E7%BA%BF%E5%88%B7/" style="font-size: 10px;">线刷</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 10px;">虚拟机</a> <a href="/tags/%E9%80%82%E9%85%8D/" style="font-size: 10px;">适配</a> <a href="/tags/%E9%87%8D%E5%86%99/" style="font-size: 10px;">重写</a> <a href="/tags/%E9%87%8D%E8%BD%BD/" style="font-size: 11.67px;">重载</a> <a href="/tags/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%E7%BB%88%E6%9E%81%E7%89%88/" style="font-size: 10px;">阿里巴巴Java开发手册终极版</a> <a href="/tags/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89/" style="font-size: 20px;">阿里巴巴Java开发手册（终极版）</a> <a href="/tags/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E7%BB%93%E7%89%88%EF%BC%89/" style="font-size: 18.33px;">阿里巴巴Java开发手册（终结版）</a> <a href="/tags/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E8%A7%84%E7%BA%A6/" style="font-size: 10px;">阿里巴巴Java开发规约</a> <a href="/tags/%E9%9B%86%E5%90%88%E5%A4%84%E7%90%86/" style="font-size: 10px;">集合处理</a> <a href="/tags/%E9%9D%99%E6%80%81%E7%BB%91%E5%AE%9A/" style="font-size: 10px;">静态绑定</a> <a href="/tags/%E9%A9%AC%E5%85%8B%E9%A3%9E%E8%B1%A1/" style="font-size: 10px;">马克飞象</a>
+                    </div>
+                </section>
+                
+                
+                
+
+                
+                
+                <section class="switch-part switch-part3">
+                
+                    <div id="js-aboutme">热爱编程，对各类技术敏感，以不断自我提升为目标；希望能结交各路豪杰，交流经验共同提高，手游上王者、吃鸡欢迎组队！</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me"></a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.png" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me"></a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">博客首页</a></li>
+                
+                    <li><a href="/tags">标签一览</a></li>
+                
+                    <li><a href="/photo">我的相册</a></li>
+                
+                    <li><a href="/enjoy">休闲时光</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="mailto:xiaofeng355@sina.com" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/goghtsui" title="github">github</a>
+                    
+                        <a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+                    
+                        <a class="weibo" target="_blank" href="https://weibo.com/xiaofeng117" title="weibo">weibo</a>
+                    
+                        <a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-Android之Matrix" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/02/19/Android%E4%B9%8BMatrix/undefined/" class="article-date">
+      <time datetime="2016-02-19T07:11:37.000Z" itemprop="datePublished">2016-02-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android之Matrix
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Matrix/" rel="tag">Matrix</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+		<div class="block" style="text-align: center;">
+<span class="post-count">  ————字数统计 5k 字</span>
+<span class="post-count"> | 阅读时长 21 分钟————  </span>
+</div>
+        <blockquote>
+<p>原作者： Qiengo<br>源地址： <a target="_blank" rel="noopener" href="http://www.cnblogs.com/qiengo/archive/2012/06/30/2570874.html">点击跳转</a></p>
+</blockquote>
+<h2 id="Matrix的数学原理"><a href="#Matrix的数学原理" class="headerlink" title="Matrix的数学原理"></a>Matrix的数学原理</h2><p>在Android中，如果你用Matrix进行过图像处理，那么一定知道Matrix这个类。Android中的Matrix是一个3 x 3的矩阵，其内容如下：<br><img src="http://hi.csdn.net/attachment/201111/19/0_13217092330d9Q.gif" alt="matrix_iamge_description"></p>
+<p>Matrix的对图像的处理可分为四类基本变换：</p>
+<ul>
+<li>Translate - 平移变换</li>
+<li>Rotate - 旋转变换</li>
+<li>Scale - 缩放变换</li>
+<li>Skew - 错切变换</li>
+</ul>
+<p>从字面上理解，矩阵中的MSCALE用于处理缩放变换，MSKEW用于处理错切变换，MTRANS用于处理平移变换，MPERSP用于处理透视变换。实际中当然不能完全按照字面上的说法去理解Matrix。同时，在Android的文档中，未见到用Matrix进行透视变换的相关说明，所以本文也不讨论这方面的问题。</p>
+<p>针对每种变换，Android提供了pre、set和post三种操作方式。其中：</p>
+<ul>
+<li>set - 用于设置Matrix中的值。</li>
+<li>pre - 是先乘，因为矩阵的乘法不满足交换律，因此先乘、后乘必须要严格区分。先乘相当于矩阵运算中的右乘。</li>
+<li>post - 是后乘，因为矩阵的乘法不满足交换律，因此先乘、后乘必须要严格区分。后乘相当于矩阵运算中的左乘。</li>
+</ul>
+<p>除平移变换(Translate)外，旋转变换(Rotate)、缩放变换(Scale)和错切变换(Skew)都可以围绕一个中心点来进行，如果不指定，在默认情况下是围绕(0, 0)来进行相应的变换的。</p>
+<p>下面我们来看看四种变换的具体情形。由于所有的图形都是有点组成，因此我们只需要考察一个点相关变换即可。</p>
+<a id="more"></a>
+
+<h3 id="一、-平移变换"><a href="#一、-平移变换" class="headerlink" title="一、 平移变换"></a>一、 平移变换</h3><hr>
+<p>假定有一个点的坐标是 ，将其移动到 ，再假定在x轴和y轴方向移动的大小分别为：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321709352RQ75.gif" alt="translate"></p>
+<p>如下图所示：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321709520MmsS.gif" alt="translate_sample"></p>
+<p>不难知道：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321709527kmK6.gif" alt="translate_result"></p>
+<p>如果用矩阵来表示的话，就可以写成：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321709536Otg4.gif" alt="translate_tips"></p>
+<h3 id="二、-旋转变换"><a href="#二、-旋转变换" class="headerlink" title="二、 旋转变换"></a>二、 旋转变换</h3><hr>
+<h4 id="2-1-围绕坐标原点旋转："><a href="#2-1-围绕坐标原点旋转：" class="headerlink" title="2.1    围绕坐标原点旋转："></a>2.1    围绕坐标原点旋转：</h4><p>假定有一个点 ，相对坐标原点顺时针旋转后的情形，同时假定P点离坐标原点的距离为r，如下图：<br><img src="http://hi.csdn.net/attachment/201111/19/0_132170975189NC.gif" alt="translate_tips"></p>
+<p>那么，<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321709797SBJW.gif" alt="translate_tips"></p>
+<p>如果用矩阵，就可以表示为：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321709849ZLVc.gif" alt="translate_tips"></p>
+<h4 id="2-2-围绕某个点旋转"><a href="#2-2-围绕某个点旋转" class="headerlink" title="2.2    围绕某个点旋转"></a>2.2    围绕某个点旋转</h4><p>如果是围绕某个点顺时针旋转，那么可以用矩阵表示为：<br><img src="http://hi.csdn.net/attachment/201111/19/0_13217100380220.gif" alt="translate_tips"></p>
+<p>可以化为：<br><img src="http://hi.csdn.net/attachment/201111/19/0_13217100952Vqv.gif" alt="translate_tips"></p>
+<p>很显然，</p>
+<p><strong>1.</strong><br><img src="http://hi.csdn.net/attachment/201111/19/0_1321710153kurQ.gif" alt="translate_tips"> 是将坐标原点移动到点后， 的新坐标。</p>
+<p><strong>2.</strong>     </p>
+<p><img src="http://hi.csdn.net/attachment/201111/19/0_1321710301T9nf.gif" alt="translate_tips"> 是将上一步变换后的，围绕新的坐标原点顺时针旋转 。</p>
+<p><strong>3.</strong><br><img src="http://hi.csdn.net/attachment/201111/19/0_1321710398Z3Je.gif" alt="translate_tips"> 经过上一步旋转变换后，再将坐标原点移回到原来的坐标原点。</p>
+<p>所以，围绕某一点进行旋转变换，可以分成3个步骤，即首先将坐标原点移至该点，然后围绕新的坐标原点进行旋转变换，再然后将坐标原点移回到原先的坐标原点。</p>
+<h3 id="三、-缩放变换"><a href="#三、-缩放变换" class="headerlink" title="三、 缩放变换"></a>三、 缩放变换</h3><hr>
+<p>理论上而言，一个点是不存在什么缩放变换的，但考虑到所有图像都是由点组成，因此，如果图像在x轴和y轴方向分别放大k1和k2倍的话，那么图像中的所有点的x坐标和y坐标均会分别放大k1和k2倍，即</p>
+<p>用矩阵表示就是：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321710517pb9W.gif" alt="translate_tips"></p>
+<p>缩放变换比较好理解，就不多说了。<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321710615riwr.gif" alt="translate_tips"></p>
+<h3 id="四、-错切变换"><a href="#四、-错切变换" class="headerlink" title="四、 错切变换"></a>四、 错切变换</h3><hr>
+<p>错切变换(skew)在数学上又称为Shear mapping(可译为“剪切变换”)或者Transvection(缩并)，它是一种比较特殊的线性变换。错切变换的效果就是让所有点的x坐标(或者y坐标)保持不变，而对应的y坐标(或者x坐标)则按比例发生平移，且平移的大小和该点到x轴(或y轴)的垂直距离成正比。错切变换，属于等面积变换，即一个形状在错切变换的前后，其面积是相等的。</p>
+<p>比如下图，各点的y坐标保持不变，但其x坐标则按比例发生了平移。这种情况将水平错切。<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321710625smm5.gif" alt="translate_tips"></p>
+<p>下图各点的x坐标保持不变，但其y坐标则按比例发生了平移。这种情况叫垂直错切。<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321710790633H.gif" alt="translate_tips"></p>
+<p>假定一个点经过错切变换后得到，对于水平错切而言，应该有如下关系：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321710798y5L6.gif" alt="translate_tips"></p>
+<p>用矩阵表示就是：<br><img src="http://hi.csdn.net/attachment/201111/19/0_13217108084B3T.gif" alt="translate_tips"></p>
+<p>扩展到3 x 3的矩阵就是下面这样的形式：<br><img src="http://hi.csdn.net/attachment/201111/19/0_13217108954sms.gif" alt="translate_tips"></p>
+<p>同理，对于垂直错切，可以有：<br><img src="http://hi.csdn.net/attachment/201111/19/0_13217109074Nv2.gif" alt="translate_tips"></p>
+<p>在数学上严格的错切变换就是上面这样的。在Android中除了有上面说到的情况外，还可以同时进行水平、垂直错切，那么形式上就是：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321711018S31a.gif" alt="translate_tips"></p>
+<h3 id="五、-对称变换"><a href="#五、-对称变换" class="headerlink" title="五、 对称变换"></a>五、 对称变换</h3><hr>
+<p>除了上面讲到的4中基本变换外，事实上，我们还可以利用Matrix，进行对称变换。所谓对称变换，就是经过变化后的图像和原图像是关于某个对称轴是对称的。比如，某点 经过对称变换后得到，</p>
+<p>如果对称轴是x轴，难么，<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321711026LZ03.gif" alt="translate_tips"></p>
+<p>用矩阵表示就是：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321711090fhGd.gif" alt="translate_tips"></p>
+<p>如果对称轴是y轴，那么，<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321711099Xhak.gif" alt="translate_tips"></p>
+<p>用矩阵表示就是：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321711217oHNz.gif" alt="translate_tips"></p>
+<p>如果对称轴是y = x，如图：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321711240gEeT.gif" alt="translate_tips"></p>
+<p>那么，<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321711240gEeT.gif" alt="translate_tips"></p>
+<p>很容易可以解得：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321711261E6xG.gif" alt="translate_tips"></p>
+<p>用矩阵表示就是：<br><img src="http://hi.csdn.net/attachment/201111/19/0_132171128473YK.gif" alt="translate_tips"></p>
+<p>同样的道理，如果对称轴是y = -x，那么用矩阵表示就是：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321711292jO01.gif" alt="translate_tips"></p>
+<p>特殊地，如果对称轴是y = kx，如下图：<br><img src="http://hi.csdn.net/attachment/201111/19/0_13217113506Hb8.gif" alt="translate_tips"></p>
+<p>那么，<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321711502QQ7A.gif" alt="translate_tips"></p>
+<p>很容易可解得：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321711521GZlt.gif" alt="translate_tips"></p>
+<p>用矩阵表示就是：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321711541FJA1.gif" alt="translate_tips"></p>
+<p>当k = 0时，即y = 0，也就是对称轴为x轴的情况；当k趋于无穷大时，即x = 0，也就是对称轴为y轴的情况；当k =1时，即y = x，也就是对称轴为y = x的情况；当k = -1时，即y = -x，也就是对称轴为y = -x的情况。不难验证，这和我们前面说到的4中具体情况是相吻合的。</p>
+<p>如果对称轴是y = kx + b这样的情况，只需要在上面的基础上增加两次平移变换即可，即先将坐标原点移动到(0, b)，然后做上面的关于y = kx的对称变换，再然后将坐标原点移回到原来的坐标原点即可。用矩阵表示大致是这样的：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321711616I9SJ.gif" alt="translate_tips"></p>
+<p>需要特别注意：在实际编程中，我们知道屏幕的y坐标的正向和数学中y坐标的正向刚好是相反的，所以在数学上y = x和屏幕上的y = -x才是真正的同一个东西，反之亦然。也就是说，如果要使图片在屏幕上看起来像按照数学意义上y = x对称，那么需使用这种转换：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321711292jO01.gif" alt="translate_tips"></p>
+<p>要使图片在屏幕上看起来像按照数学意义上y = -x对称，那么需使用这种转换：<br><img src="http://hi.csdn.net/attachment/201111/19/0_132171128473YK.gif" alt="translate_tips"></p>
+<p>关于对称轴为y = kx 或y = kx + b的情况，同样需要考虑这方面的问题。</p>
+<h2 id="第二部分-代码验证"><a href="#第二部分-代码验证" class="headerlink" title="第二部分 代码验证"></a>第二部分 代码验证</h2><p>在第一部分中讲到的各种图像变换的验证代码如下，一共列出了10种情况。如果要验证其中的某一种情况，只需将相应的代码反注释即可。试验中用到的图片：<br><img src="http://hi.csdn.net/attachment/201111/19/0_13217122673338.gif"><br>其尺寸为162 x 251。</p>
+<p>每种变换的结果，请见代码之后的说明。</p>
+<pre><code class="java">package com.pat.testtransformmatrix;  
+
+import android.app.Activity;  
+import android.content.Context;  
+import android.graphics.Bitmap;  
+import android.graphics.BitmapFactory;  
+import android.graphics.Canvas;  
+import android.graphics.Matrix;  
+import android.os.Bundle;  
+import android.util.Log;  
+import android.view.MotionEvent;  
+import android.view.View;  
+import android.view.Window;  
+import android.view.WindowManager;  
+import android.view.View.OnTouchListener;  
+import android.widget.ImageView;  
+
+public class TestTransformMatrixActivity extends Activity  
+implements  
+OnTouchListener  
+&#123;  
+    private TransformMatrixView view;  
+    @Override  
+    public void onCreate(Bundle savedInstanceState)  
+    &#123;  
+        super.onCreate(savedInstanceState);  
+        requestWindowFeature(Window.FEATURE_NO_TITLE);  
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);  
+
+        view = new TransformMatrixView(this);  
+        view.setScaleType(ImageView.ScaleType.MATRIX);  
+        view.setOnTouchListener(this);  
+
+        setContentView(view);  
+    &#125;  
+
+    class TransformMatrixView extends ImageView  
+    &#123;  
+        private Bitmap bitmap;  
+        private Matrix matrix;  
+        public TransformMatrixView(Context context)  
+        &#123;  
+            super(context);  
+            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sophie);  
+            matrix = new Matrix();  
+        &#125;  
+
+        @Override  
+        protected void onDraw(Canvas canvas)  
+        &#123;  
+            // 画出原图像  
+            canvas.drawBitmap(bitmap, 0, 0, null);  
+            // 画出变换后的图像  
+            canvas.drawBitmap(bitmap, matrix, null);  
+            super.onDraw(canvas);  
+        &#125;  
+
+        @Override  
+        public void setImageMatrix(Matrix matrix)  
+        &#123;  
+            this.matrix.set(matrix);  
+            super.setImageMatrix(matrix);  
+        &#125;  
+
+        public Bitmap getImageBitmap()  
+        &#123;  
+            return bitmap;  
+        &#125;  
+    &#125;  
+
+    public boolean onTouch(View v, MotionEvent e)  
+    &#123;  
+        if(e.getAction() == MotionEvent.ACTION_UP)  
+        &#123;  
+            Matrix matrix = new Matrix();  
+            // 输出图像的宽度和高度(162 x 251)  
+            Log.e(&quot;TestTransformMatrixActivity&quot;, &quot;image size: width x height = &quot; +  view.getImageBitmap().getWidth() + &quot; x &quot; + view.getImageBitmap().getHeight());  
+            // 1. 平移  
+            matrix.postTranslate(view.getImageBitmap().getWidth(), view.getImageBitmap().getHeight());  
+            // 在x方向平移view.getImageBitmap().getWidth()，在y轴方向view.getImageBitmap().getHeight()  
+            view.setImageMatrix(matrix);  
+
+            // 下面的代码是为了查看matrix中的元素  
+            float[] matrixValues = new float[9];  
+            matrix.getValues(matrixValues);  
+            for(int i = 0; i &lt; 3; ++i)  
+            &#123;  
+                String temp = new String();  
+                for(int j = 0; j &lt; 3; ++j)  
+                &#123;  
+                    temp += matrixValues[3 * i + j ] + &quot;\t&quot;;  
+                &#125;  
+                Log.e(&quot;TestTransformMatrixActivity&quot;, temp);  
+            &#125;  
+
+
+//          // 2. 旋转(围绕图像的中心点)  
+//          matrix.setRotate(45f, view.getImageBitmap().getWidth() / 2f, view.getImageBitmap().getHeight() / 2f);  
+//            
+//          // 做下面的平移变换，纯粹是为了让变换后的图像和原图像不重叠  
+//          matrix.postTranslate(view.getImageBitmap().getWidth() * 1.5f, 0f);  
+//          view.setImageMatrix(matrix);  
+//  
+//          // 下面的代码是为了查看matrix中的元素  
+//          float[] matrixValues = new float[9];  
+//          matrix.getValues(matrixValues);  
+//          for(int i = 0; i &lt; 3; ++i)  
+//          &#123;  
+//              String temp = new String();  
+//              for(int j = 0; j &lt; 3; ++j)  
+//              &#123;  
+//                  temp += matrixValues[3 * i + j ] + &quot;\t&quot;;  
+//              &#125;  
+//              Log.e(&quot;TestTransformMatrixActivity&quot;, temp);  
+//          &#125;  
+
+
+//          // 3. 旋转(围绕坐标原点) + 平移(效果同2)  
+//          matrix.setRotate(45f);  
+//          matrix.preTranslate(-1f * view.getImageBitmap().getWidth() / 2f, -1f * view.getImageBitmap().getHeight() / 2f);  
+//          matrix.postTranslate((float)view.getImageBitmap().getWidth() / 2f, (float)view.getImageBitmap().getHeight() / 2f);  
+//            
+//          // 做下面的平移变换，纯粹是为了让变换后的图像和原图像不重叠  
+//          matrix.postTranslate((float)view.getImageBitmap().getWidth() * 1.5f, 0f);  
+//          view.setImageMatrix(matrix);  
+//            
+//          // 下面的代码是为了查看matrix中的元素  
+//          float[] matrixValues = new float[9];  
+//          matrix.getValues(matrixValues);  
+//          for(int i = 0; i &lt; 3; ++i)  
+//          &#123;  
+//              String temp = new String();  
+//              for(int j = 0; j &lt; 3; ++j)  
+//              &#123;  
+//                  temp += matrixValues[3 * i + j ] + &quot;\t&quot;;  
+//              &#125;  
+//              Log.e(&quot;TestTransformMatrixActivity&quot;, temp);  
+//          &#125;             
+
+//          // 4. 缩放  
+//          matrix.setScale(2f, 2f);  
+//          // 下面的代码是为了查看matrix中的元素  
+//          float[] matrixValues = new float[9];  
+//          matrix.getValues(matrixValues);  
+//          for(int i = 0; i &lt; 3; ++i)  
+//          &#123;  
+//              String temp = new String();  
+//              for(int j = 0; j &lt; 3; ++j)  
+//              &#123;  
+//                  temp += matrixValues[3 * i + j ] + &quot;\t&quot;;  
+//              &#125;  
+//              Log.e(&quot;TestTransformMatrixActivity&quot;, temp);  
+//          &#125;  
+//            
+//          // 做下面的平移变换，纯粹是为了让变换后的图像和原图像不重叠  
+//          matrix.postTranslate(view.getImageBitmap().getWidth(), view.getImageBitmap().getHeight());  
+//          view.setImageMatrix(matrix);  
+//            
+//          // 下面的代码是为了查看matrix中的元素  
+//          matrixValues = new float[9];  
+//          matrix.getValues(matrixValues);  
+//          for(int i = 0; i &lt; 3; ++i)  
+//          &#123;  
+//              String temp = new String();  
+//              for(int j = 0; j &lt; 3; ++j)  
+//              &#123;  
+//                  temp += matrixValues[3 * i + j ] + &quot;\t&quot;;  
+//              &#125;  
+//              Log.e(&quot;TestTransformMatrixActivity&quot;, temp);  
+//          &#125;  
+
+
+//          // 5. 错切 - 水平  
+//          matrix.setSkew(0.5f, 0f);  
+//          // 下面的代码是为了查看matrix中的元素  
+//          float[] matrixValues = new float[9];  
+//          matrix.getValues(matrixValues);  
+//          for(int i = 0; i &lt; 3; ++i)  
+//          &#123;  
+//              String temp = new String();  
+//              for(int j = 0; j &lt; 3; ++j)  
+//              &#123;  
+//                  temp += matrixValues[3 * i + j ] + &quot;\t&quot;;  
+//              &#125;  
+//              Log.e(&quot;TestTransformMatrixActivity&quot;, temp);  
+//          &#125;  
+//            
+//          // 做下面的平移变换，纯粹是为了让变换后的图像和原图像不重叠           
+//          matrix.postTranslate(view.getImageBitmap().getWidth(), 0f);  
+//          view.setImageMatrix(matrix);  
+//            
+//          // 下面的代码是为了查看matrix中的元素  
+//          matrixValues = new float[9];  
+//          matrix.getValues(matrixValues);  
+//          for(int i = 0; i &lt; 3; ++i)  
+//          &#123;  
+//              String temp = new String();  
+//              for(int j = 0; j &lt; 3; ++j)  
+//              &#123;  
+//                  temp += matrixValues[3 * i + j ] + &quot;\t&quot;;  
+//              &#125;  
+//              Log.e(&quot;TestTransformMatrixActivity&quot;, temp);  
+//          &#125;  
+
+//          // 6. 错切 - 垂直  
+//          matrix.setSkew(0f, 0.5f);  
+//          // 下面的代码是为了查看matrix中的元素  
+//          float[] matrixValues = new float[9];  
+//          matrix.getValues(matrixValues);  
+//          for(int i = 0; i &lt; 3; ++i)  
+//          &#123;  
+//              String temp = new String();  
+//              for(int j = 0; j &lt; 3; ++j)  
+//              &#123;  
+//                  temp += matrixValues[3 * i + j ] + &quot;\t&quot;;  
+//              &#125;  
+//              Log.e(&quot;TestTransformMatrixActivity&quot;, temp);  
+//          &#125;  
+//            
+//          // 做下面的平移变换，纯粹是为了让变换后的图像和原图像不重叠               
+//          matrix.postTranslate(0f, view.getImageBitmap().getHeight());  
+//          view.setImageMatrix(matrix);  
+//            
+//          // 下面的代码是为了查看matrix中的元素  
+//          matrixValues = new float[9];  
+//          matrix.getValues(matrixValues);  
+//          for(int i = 0; i &lt; 3; ++i)  
+//          &#123;  
+//              String temp = new String();  
+//              for(int j = 0; j &lt; 3; ++j)  
+//              &#123;  
+//                  temp += matrixValues[3 * i + j ] + &quot;\t&quot;;  
+//              &#125;  
+//              Log.e(&quot;TestTransformMatrixActivity&quot;, temp);  
+//          &#125;             
+
+//          7. 错切 - 水平 + 垂直  
+//          matrix.setSkew(0.5f, 0.5f);  
+//          // 下面的代码是为了查看matrix中的元素  
+//          float[] matrixValues = new float[9];  
+//          matrix.getValues(matrixValues);  
+//          for(int i = 0; i &lt; 3; ++i)  
+//          &#123;  
+//              String temp = new String();  
+//              for(int j = 0; j &lt; 3; ++j)  
+//              &#123;  
+//                  temp += matrixValues[3 * i + j ] + &quot;\t&quot;;  
+//              &#125;  
+//              Log.e(&quot;TestTransformMatrixActivity&quot;, temp);  
+//          &#125;  
+//            
+//          // 做下面的平移变换，纯粹是为了让变换后的图像和原图像不重叠               
+//          matrix.postTranslate(0f, view.getImageBitmap().getHeight());  
+//          view.setImageMatrix(matrix);  
+//            
+//          // 下面的代码是为了查看matrix中的元素  
+//          matrixValues = new float[9];  
+//          matrix.getValues(matrixValues);  
+//          for(int i = 0; i &lt; 3; ++i)  
+//          &#123;  
+//              String temp = new String();  
+//              for(int j = 0; j &lt; 3; ++j)  
+//              &#123;  
+//                  temp += matrixValues[3 * i + j ] + &quot;\t&quot;;  
+//              &#125;  
+//              Log.e(&quot;TestTransformMatrixActivity&quot;, temp);  
+//          &#125;  
+
+//          // 8. 对称 (水平对称)  
+//          float matrix_values[] = &#123;1f, 0f, 0f, 0f, -1f, 0f, 0f, 0f, 1f&#125;;  
+//          matrix.setValues(matrix_values);  
+//          // 下面的代码是为了查看matrix中的元素  
+//          float[] matrixValues = new float[9];  
+//          matrix.getValues(matrixValues);  
+//          for(int i = 0; i &lt; 3; ++i)  
+//          &#123;  
+//              String temp = new String();  
+//              for(int j = 0; j &lt; 3; ++j)  
+//              &#123;  
+//                  temp += matrixValues[3 * i + j ] + &quot;\t&quot;;  
+//              &#125;  
+//              Log.e(&quot;TestTransformMatrixActivity&quot;, temp);  
+//          &#125;  
+//            
+//          // 做下面的平移变换，纯粹是为了让变换后的图像和原图像不重叠   
+//          matrix.postTranslate(0f, view.getImageBitmap().getHeight() * 2f);  
+//          view.setImageMatrix(matrix);  
+//            
+//          // 下面的代码是为了查看matrix中的元素  
+//          matrixValues = new float[9];  
+//          matrix.getValues(matrixValues);  
+//          for(int i = 0; i &lt; 3; ++i)  
+//          &#123;  
+//              String temp = new String();  
+//              for(int j = 0; j &lt; 3; ++j)  
+//              &#123;  
+//                  temp += matrixValues[3 * i + j ] + &quot;\t&quot;;  
+//              &#125;  
+//              Log.e(&quot;TestTransformMatrixActivity&quot;, temp);  
+//          &#125;             
+
+//          // 9. 对称 - 垂直  
+//          float matrix_values[] = &#123;-1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f&#125;;  
+//          matrix.setValues(matrix_values);  
+//          // 下面的代码是为了查看matrix中的元素  
+//          float[] matrixValues = new float[9];  
+//          matrix.getValues(matrixValues);  
+//          for(int i = 0; i &lt; 3; ++i)  
+//          &#123;  
+//              String temp = new String();  
+//              for(int j = 0; j &lt; 3; ++j)  
+//              &#123;  
+//                  temp += matrixValues[3 * i + j ] + &quot;\t&quot;;  
+//              &#125;  
+//              Log.e(&quot;TestTransformMatrixActivity&quot;, temp);  
+//          &#125;     
+//            
+//          // 做下面的平移变换，纯粹是为了让变换后的图像和原图像不重叠   
+//          matrix.postTranslate(view.getImageBitmap().getWidth() * 2f, 0f);  
+//          view.setImageMatrix(matrix);  
+//            
+//          // 下面的代码是为了查看matrix中的元素  
+//          matrixValues = new float[9];  
+//          matrix.getValues(matrixValues);  
+//          for(int i = 0; i &lt; 3; ++i)  
+//          &#123;  
+//              String temp = new String();  
+//              for(int j = 0; j &lt; 3; ++j)  
+//              &#123;  
+//                  temp += matrixValues[3 * i + j ] + &quot;\t&quot;;  
+//              &#125;  
+//              Log.e(&quot;TestTransformMatrixActivity&quot;, temp);  
+//          &#125;  
+
+
+//          // 10. 对称(对称轴为直线y = x)  
+//          float matrix_values[] = &#123;0f, -1f, 0f, -1f, 0f, 0f, 0f, 0f, 1f&#125;;  
+//          matrix.setValues(matrix_values);  
+//          // 下面的代码是为了查看matrix中的元素  
+//          float[] matrixValues = new float[9];  
+//          matrix.getValues(matrixValues);  
+//          for(int i = 0; i &lt; 3; ++i)  
+//          &#123;  
+//              String temp = new String();  
+//              for(int j = 0; j &lt; 3; ++j)  
+//              &#123;  
+//                  temp += matrixValues[3 * i + j ] + &quot;\t&quot;;  
+//              &#125;  
+//              Log.e(&quot;TestTransformMatrixActivity&quot;, temp);  
+//          &#125;  
+//            
+//          // 做下面的平移变换，纯粹是为了让变换后的图像和原图像不重叠               
+//          matrix.postTranslate(view.getImageBitmap().getHeight() + view.getImageBitmap().getWidth(),   
+//                  view.getImageBitmap().getHeight() + view.getImageBitmap().getWidth());  
+//          view.setImageMatrix(matrix);  
+//            
+//          // 下面的代码是为了查看matrix中的元素  
+//          matrixValues = new float[9];  
+//          matrix.getValues(matrixValues);  
+//          for(int i = 0; i &lt; 3; ++i)  
+//          &#123;  
+//              String temp = new String();  
+//              for(int j = 0; j &lt; 3; ++j)  
+//              &#123;  
+//                  temp += matrixValues[3 * i + j ] + &quot;\t&quot;;  
+//              &#125;  
+//              Log.e(&quot;TestTransformMatrixActivity&quot;, temp);  
+//          &#125;  
+
+            view.invalidate();  
+        &#125;  
+        return true;  
+    &#125;  
+&#125;  </code></pre>
+<p>下面给出上述代码中，各种变换的具体结果及其对应的相关变换矩阵</p>
+<h3 id="1-平移"><a href="#1-平移" class="headerlink" title="1.平移"></a>1.平移</h3><p><img src="http://hi.csdn.net/attachment/201111/19/0_1321712352qQRu.gif"></p>
+<p>输出的结果：<br><img src="http://hi.csdn.net/attachment/201111/19/0_13217123565Wwz.gif"></p>
+<p>请对照第一部分中的“一、平移变换”所讲的情形，考察上述矩阵的正确性。</p>
+<h3 id="2-旋转-围绕图像的中心点"><a href="#2-旋转-围绕图像的中心点" class="headerlink" title="2.旋转(围绕图像的中心点)"></a>2.旋转(围绕图像的中心点)</h3><hr>
+<p><img src="http://hi.csdn.net/attachment/201111/19/0_132171250556xp.gif"></p>
+<p>输出的结果：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321712512Yj1i.gif"></p>
+<p>它实际上是</p>
+<pre><code class="java">matrix.setRotate(45f,view.getImageBitmap().getWidth() / 2f, view.getImageBitmap().getHeight() / 2f);
+matrix.postTranslate(view.getImageBitmap().getWidth()* 1.5f, 0f);</code></pre>
+<p>这两条语句综合作用的结果。根据第一部分中“二、旋转变换”里面关于围绕某点旋转的公式，</p>
+<pre><code class="java">matrix.setRotate(45f,view.getImageBitmap().getWidth() / 2f, view.getImageBitmap().getHeight() / 2f);</code></pre>
+<p>所产生的转换矩阵就是：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321712644I54M.gif"></p>
+<p>而</p>
+<pre><code class="java">matrix.postTranslate(view.getImageBitmap().getWidth()* 1.5f, 0f);</code></pre>
+<p>的意思就是在上述矩阵的左边再乘以下面的矩阵：<br><img src="http://hi.csdn.net/attachment/201111/19/0_13217126508k4V.gif"></p>
+<p>关于post是左乘这一点，我们在前面的理论部分曾经提及过，后面我们还会专门讨论这个问题。<br>所以它实际上就是：<br><img src="http://hi.csdn.net/attachment/201111/19/0_13217126608wdT.gif"></p>
+<p>出去计算上的精度误差，我们可以看到我们计算出来的结果，和程序直接输出的结果是一致的。</p>
+<h3 id="3-旋转-围绕坐标原点旋转，在加上两次平移，效果同2"><a href="#3-旋转-围绕坐标原点旋转，在加上两次平移，效果同2" class="headerlink" title="3.旋转(围绕坐标原点旋转，在加上两次平移，效果同2)"></a>3.旋转(围绕坐标原点旋转，在加上两次平移，效果同2)</h3><hr>
+<p><img src="http://hi.csdn.net/attachment/201111/19/0_132171250556xp.gif"></p>
+<p>根据第一部分中“二、旋转变换”里面关于围绕某点旋转的解释，不难知道：</p>
+<pre><code class="java">matrix.setRotate(45f,view.getImageBitmap().getWidth() / 2f, view.getImageBitmap().getHeight() / 2f);</code></pre>
+<p>等价于</p>
+<pre><code class="java">matrix.setRotate(45f);
+matrix.preTranslate(-1f* view.getImageBitmap().getWidth() / 2f, -1f *view.getImageBitmap().getHeight() / 2f);
+matrix.postTranslate((float)view.getImageBitmap().getWidth()/ 2f, (float)view.getImageBitmap().getHeight() / 2f);</code></pre>
+<p>其中<code>matrix.setRotate(45f)</code>对应的矩阵是：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321712949GjN7.gif"></p>
+<pre><code class="java">matrix.preTranslate(-1f* view.getImageBitmap().getWidth() / 2f, -1f * view.getImageBitmap().getHeight()/ 2f)</code></pre>
+<p>对应的矩阵是：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321712956BNj8.gif"></p>
+<p>由于是preTranslate，是先乘，也就是右乘，即它应该出现在<code>matrix.setRotate(45f)</code>所对应矩阵的右侧。</p>
+<pre><code class="java">matrix.postTranslate((float)view.getImageBitmap().getWidth()/ 2f, (float)view.getImageBitmap().getHeight() / 2f)</code></pre>
+<p>对应的矩阵是：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321712963iNO1.gif"></p>
+<p>这次由于是postTranslate，是后乘，也就是左乘，即它应该出现在<code>matrix.setRotate(45f)</code>所对应矩阵的左侧。</p>
+<p>所以综合起来，</p>
+<pre><code class="java">matrix.setRotate(45f);
+matrix.preTranslate(-1f* view.getImageBitmap().getWidth() / 2f, -1f *view.getImageBitmap().getHeight() / 2f);
+matrix.postTranslate((float)view.getImageBitmap().getWidth()/ 2f, (float)view.getImageBitmap().getHeight() / 2f);</code></pre>
+<p>对应的矩阵就是：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321713055HOOt.gif"></p>
+<p>这和下面这个矩阵(围绕图像中心顺时针旋转45度)其实是一样的：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321713100VIOz.gif"></p>
+<p>因此，此处变换后的图像和2中变换后的图像时一样的。<br>![][307]</p>
+<h3 id="4-缩放变换"><a href="#4-缩放变换" class="headerlink" title="4.缩放变换"></a>4.缩放变换</h3><hr>
+<p><img src="http://hi.csdn.net/attachment/201111/19/0_1321713185yKS7.gif"></p>
+<p>程序所输出的两个矩阵分别是：<br><img src="http://hi.csdn.net/attachment/201111/19/0_13217131941R24.gif"></p>
+<p>其中第二个矩阵，其实是下面两个矩阵相乘的结果：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321713201VRxs.gif"></p>
+<p>大家可以对照第一部分中的“三、缩放变换”和“一、平移变换”说法，自行验证结果。</p>
+<h3 id="5-错切变换-水平错切"><a href="#5-错切变换-水平错切" class="headerlink" title="5.错切变换(水平错切)"></a>5.错切变换(水平错切)</h3><hr>
+<p><img src="http://hi.csdn.net/attachment/201111/19/0_132171330766G0.gif"></p>
+<p>代码所输出的两个矩阵分别是：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321713314Dk69.gif"></p>
+<p>其中，第二个矩阵其实是下面两个矩阵相乘的结果：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321713322PeML.gif"></p>
+<p>大家可以对照第一部分中的“四、错切变换”和“一、平移变换”的相关说法，自行验证结果。</p>
+<h3 id="6-错切变换-垂直错切"><a href="#6-错切变换-垂直错切" class="headerlink" title="6.错切变换(垂直错切)"></a>6.错切变换(垂直错切)</h3><hr>
+<p><img src="http://hi.csdn.net/attachment/201111/19/0_1321713502Akg2.gif"></p>
+<p>代码所输出的两个矩阵分别是：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321713509Hz7p.gif"></p>
+<p>其中，第二个矩阵其实是下面两个矩阵相乘的结果：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321713516TUvx.gif"></p>
+<p>大家可以对照第一部分中的“四、错切变换”和“一、平移变换”的相关说法，自行验证结果。</p>
+<h3 id="7-错切变换-水平-垂直错切"><a href="#7-错切变换-水平-垂直错切" class="headerlink" title="7.错切变换(水平+垂直错切)"></a>7.错切变换(水平+垂直错切)</h3><hr>
+<p><img src="http://hi.csdn.net/attachment/201111/19/0_1321713655Qsij.gif"></p>
+<p>代码所输出的两个矩阵分别是：<br><img src="http://hi.csdn.net/attachment/201111/19/0_13217136824kKR.gif"></p>
+<p>其中，后者是下面两个矩阵相乘的结果：<br><img src="http://hi.csdn.net/attachment/201111/19/0_13217136931vl4.gif"></p>
+<p>大家可以对照第一部分中的“四、错切变换”和“一、平移变换”的相关说法，自行验证结果。</p>
+<h3 id="8-对称变换-水平对称"><a href="#8-对称变换-水平对称" class="headerlink" title="8.对称变换(水平对称)"></a>8.对称变换(水平对称)</h3><hr>
+<p><img src="http://hi.csdn.net/attachment/201111/19/0_13217141232rJI.gif"></p>
+<p>代码所输出的两个各矩阵分别是：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321714133P0ha.gif"></p>
+<p>其中，后者是下面两个矩阵相乘的结果：<br><img src="http://hi.csdn.net/attachment/201111/19/0_13217141417Bi3.gif"></p>
+<p>大家可以对照第一部分中的“五、对称变换”和“一、平移变换”的相关说法，自行验证结果。</p>
+<h3 id="9-对称变换-垂直对称"><a href="#9-对称变换-垂直对称" class="headerlink" title="9.对称变换(垂直对称)"></a>9.对称变换(垂直对称)</h3><hr>
+<p><img src="http://hi.csdn.net/attachment/201111/19/0_1321714261NN3V.gif"></p>
+<p>代码所输出的两个矩阵分别是：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321714269Kqs4.gif"></p>
+<p>其中，后者是下面两个矩阵相乘的结果：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321714276ai2f.gif"></p>
+<p>大家可以对照第一部分中的“五、对称变换”和“一、平移变换”的相关说法，自行验证结果。</p>
+<h3 id="10-对称变换-对称轴为直线y-x"><a href="#10-对称变换-对称轴为直线y-x" class="headerlink" title="10.对称变换(对称轴为直线y = x)"></a>10.对称变换(对称轴为直线y = x)</h3><hr>
+<p><img src="http://hi.csdn.net/attachment/201111/19/0_13217144950030.gif"></p>
+<p>代码所输出的两个矩阵分别是：<br><img src="http://hi.csdn.net/attachment/201111/19/0_13217145038hN8.gif"></p>
+<p>其中，后者是下面两个矩阵相乘的结果：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321714509sBN4.gif"></p>
+<p>大家可以对照第一部分中的“五、对称变换”和“一、平移变换”的相关说法，自行验证结果。</p>
+<h3 id="11-关于先乘和后乘的问题"><a href="#11-关于先乘和后乘的问题" class="headerlink" title="11.关于先乘和后乘的问题"></a>11.关于先乘和后乘的问题</h3><hr>
+<p>由于矩阵的乘法运算不满足交换律，我们在前面曾经多次提及先乘、后乘的问题，即先乘就是矩阵运算中右乘，后乘就是矩阵运算中的左乘。其实先乘、后乘的概念是针对变换操作的时间先后而言的，左乘、右乘是针对矩阵运算的左右位置而言的。以第一部分“二、旋转变换”中围绕某点旋转的情况为例：<br><img src="http://hi.csdn.net/attachment/201111/19/0_1321714645396z.gif"></p>
+<p>越靠近原图像中像素的矩阵，越先乘，越远离原图像中像素的矩阵，越后乘。事实上，图像处理时，矩阵的运算是从右边往左边方向进行运算的。这就形成了越在右边的矩阵(右乘)，越先运算(先乘)，反之亦然。</p>
+<p>当然，在实际中，如果首先指定了一个matrix，比如我们先setRotate()，即指定了上面变换矩阵中，中间的那个矩阵，那么后续的矩阵到底是pre还是post运算，都是相对这个中间矩阵而言的。</p>
+
+      
+      
+        <div class="page-reward">
+          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang">赏</a></p>
+          <div class="hide_box"></div>
+          <div class="shang_box">
+            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
+            <div class="shang_tit">
+              <p>大吉大利，晚上吃鸡</p>
+            </div>
+            <div class="shang_payimg">
+              <img src="/img/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+            </div>
+              <div class="pay_explain">扫码打赏，你说多少就多少</div>
+            <div class="shang_payselect">
+              
+                <div class="pay_item checked" data-id="alipay">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/alipay.png" alt="支付宝" /></span>
+                </div>
+              
+              
+                <div class="pay_item" data-id="wechat">
+                  <span class="radiobox"></span>
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信" /></span>
+                </div>
+              
+            </div>
+            <div class="shang_info">
+              <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+        <script type="text/javascript">
+          $(".pay_item").click(function(){
+            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
+            var dataid=$(this).attr('data-id');
+            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
+            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
+          });
+          function dashangToggle(){
+            
+            $(".hide_box").fadeToggle();
+            $(".shang_box").fadeToggle();
+          }
+        </script>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/02/19/Android%E4%B9%8BMatrix/undefined/">Android之Matrix</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问  的个人博客"></a></p>
+        <p><span>发布时间:</span>2016年02月19日 - 15时11分</p>
+        <p><span>最后更新:</span>2021年01月26日 - 10时34分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/02/19/Android%E4%B9%8BMatrix/undefined/" title="Android之Matrix">https://goghtsui.github.io/2016/02/19/Android%E4%B9%8BMatrix/undefined/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://goghtsui.github.io/2016/02/19/Android%E4%B9%8BMatrix/undefined/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2016/02/19/Java%E4%B9%8BHashMap%E5%92%8CHashTable%E7%9A%84%E4%B8%8D%E5%90%8C/undefined/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Java之HashMap和HashTable的不同
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/12/31/Android-Material-Design%E5%85%A5%E9%97%A8/undefined/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android Material Design入门</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Matrix%E7%9A%84%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">Matrix的数学原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E5%B9%B3%E7%A7%BB%E5%8F%98%E6%8D%A2"><span class="toc-number">1.1.</span> <span class="toc-text">一、 平移变换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81-%E6%97%8B%E8%BD%AC%E5%8F%98%E6%8D%A2"><span class="toc-number">1.2.</span> <span class="toc-text">二、 旋转变换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E5%9B%B4%E7%BB%95%E5%9D%90%E6%A0%87%E5%8E%9F%E7%82%B9%E6%97%8B%E8%BD%AC%EF%BC%9A"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1    围绕坐标原点旋转：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-%E5%9B%B4%E7%BB%95%E6%9F%90%E4%B8%AA%E7%82%B9%E6%97%8B%E8%BD%AC"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2    围绕某个点旋转</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81-%E7%BC%A9%E6%94%BE%E5%8F%98%E6%8D%A2"><span class="toc-number">1.3.</span> <span class="toc-text">三、 缩放变换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81-%E9%94%99%E5%88%87%E5%8F%98%E6%8D%A2"><span class="toc-number">1.4.</span> <span class="toc-text">四、 错切变换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%E3%80%81-%E5%AF%B9%E7%A7%B0%E5%8F%98%E6%8D%A2"><span class="toc-number">1.5.</span> <span class="toc-text">五、 对称变换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86-%E4%BB%A3%E7%A0%81%E9%AA%8C%E8%AF%81"><span class="toc-number">2.</span> <span class="toc-text">第二部分 代码验证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%B9%B3%E7%A7%BB"><span class="toc-number">2.1.</span> <span class="toc-text">1.平移</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%97%8B%E8%BD%AC-%E5%9B%B4%E7%BB%95%E5%9B%BE%E5%83%8F%E7%9A%84%E4%B8%AD%E5%BF%83%E7%82%B9"><span class="toc-number">2.2.</span> <span class="toc-text">2.旋转(围绕图像的中心点)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%97%8B%E8%BD%AC-%E5%9B%B4%E7%BB%95%E5%9D%90%E6%A0%87%E5%8E%9F%E7%82%B9%E6%97%8B%E8%BD%AC%EF%BC%8C%E5%9C%A8%E5%8A%A0%E4%B8%8A%E4%B8%A4%E6%AC%A1%E5%B9%B3%E7%A7%BB%EF%BC%8C%E6%95%88%E6%9E%9C%E5%90%8C2"><span class="toc-number">2.3.</span> <span class="toc-text">3.旋转(围绕坐标原点旋转，在加上两次平移，效果同2)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E7%BC%A9%E6%94%BE%E5%8F%98%E6%8D%A2"><span class="toc-number">2.4.</span> <span class="toc-text">4.缩放变换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E9%94%99%E5%88%87%E5%8F%98%E6%8D%A2-%E6%B0%B4%E5%B9%B3%E9%94%99%E5%88%87"><span class="toc-number">2.5.</span> <span class="toc-text">5.错切变换(水平错切)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E9%94%99%E5%88%87%E5%8F%98%E6%8D%A2-%E5%9E%82%E7%9B%B4%E9%94%99%E5%88%87"><span class="toc-number">2.6.</span> <span class="toc-text">6.错切变换(垂直错切)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E9%94%99%E5%88%87%E5%8F%98%E6%8D%A2-%E6%B0%B4%E5%B9%B3-%E5%9E%82%E7%9B%B4%E9%94%99%E5%88%87"><span class="toc-number">2.7.</span> <span class="toc-text">7.错切变换(水平+垂直错切)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E5%AF%B9%E7%A7%B0%E5%8F%98%E6%8D%A2-%E6%B0%B4%E5%B9%B3%E5%AF%B9%E7%A7%B0"><span class="toc-number">2.8.</span> <span class="toc-text">8.对称变换(水平对称)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E5%AF%B9%E7%A7%B0%E5%8F%98%E6%8D%A2-%E5%9E%82%E7%9B%B4%E5%AF%B9%E7%A7%B0"><span class="toc-number">2.9.</span> <span class="toc-text">9.对称变换(垂直对称)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E5%AF%B9%E7%A7%B0%E5%8F%98%E6%8D%A2-%E5%AF%B9%E7%A7%B0%E8%BD%B4%E4%B8%BA%E7%9B%B4%E7%BA%BFy-x"><span class="toc-number">2.10.</span> <span class="toc-text">10.对称变换(对称轴为直线y &#x3D; x)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-%E5%85%B3%E4%BA%8E%E5%85%88%E4%B9%98%E5%92%8C%E5%90%8E%E4%B9%98%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">2.11.</span> <span class="toc-text">11.关于先乘和后乘的问题</span></a></li></ol></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+        <div id="gitments"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+      id: "Fri Feb 19 2016 15:11:37 GMT+0800",
+      owner: 'goghtsui',
+      repo: 'goghtsui.github.io',
+      oauth: {
+        client_id: 'c24ae8995e63819cc6ac',
+        client_secret: '6b8333126a89a30fcc9aea67ba107118f73c20da',
+      },
+    })
+    gitment.render('gitments')
+</script>
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2016/02/19/Java%E4%B9%8BHashMap%E5%92%8CHashTable%E7%9A%84%E4%B8%8D%E5%90%8C/undefined/" title="上一篇: Java之HashMap和HashTable的不同">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2015/12/31/Android-Material-Design%E5%85%A5%E9%97%A8/undefined/" title="下一篇: Android Material Design入门">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2021/01/26/Java%E5%90%8C%E6%AD%A5%E4%B9%8Bsynchronized%E5%85%B3%E9%94%AE%E5%AD%97/undefined/">Java同步之synchronized关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/06/Android-%E9%80%82%E9%85%8D%E4%B9%8Bdimens-adapter/undefined/">Android 适配之dimens adapter</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/28/Android-Emulator-%E6%9B%B4%E6%96%B0%E4%BA%86-%E4%BC%A4%E5%AE%B3%E7%88%86%E7%82%B8/undefined/">Android Emulator 更新了 伤害爆炸</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/15/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E8%A7%84%E7%BA%A6%E3%80%8B%E6%8F%92%E4%BB%B6p3c%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/undefined/">《阿里巴巴Java开发规约》插件p3c使用说明</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/25/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B4-1%E5%AE%89%E5%85%A8%E8%A7%84%E7%BA%A6%EF%BC%88%E6%96%B0%E5%A2%9E%EF%BC%89/undefined/">《阿里巴巴Java开发手册（终极版）》4-1安全规约（新增）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/25/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B3-1%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%EF%BC%88%E6%96%B0%E5%A2%9E%EF%BC%89/undefined/">《阿里巴巴Java开发手册（终极版）》3-1单元测试（新增）</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/25/Android-Studio-%E4%B9%8B%E4%BE%9D%E8%B5%96%E6%96%B9%E5%BC%8F%E8%AF%A6%E8%A7%A3(Compile,%20Provided...)/undefined/">Android-Studio-之依赖方式详解(Compile, Provided...)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/08/Android-Studio-%E5%8F%91%E5%B8%83-library-%E5%88%B0-jcenter-%E5%92%8C-maven-central/undefined/">Android Studio 发布 library 到 jcenter 和 maven central</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/05/Moto-Z-Play-%E5%8E%BB%E9%99%A4%E5%86%85%E6%A0%B8%E5%8A%A0%E5%AF%86%E5%92%8Cdm-verify/undefined/">Moto Z Play 去除内核加密和dm-verify</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/Google-%E5%8F%91%E5%B8%83-Android-Studio-3-0-Canary-1/undefined/">Google 发布 Android Studio 3.0 Canary 1</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/10/Windows-10-%E4%BD%BF%E7%94%A8%E4%B9%8B%E8%BF%9B%E9%98%B6%E7%AF%87/undefined/">Windows 10 使用之进阶篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/28/%E5%85%B3%E4%BA%8Ejava-lang-String%E7%9A%84intern-%E6%96%B9%E6%B3%95%E3%80%90%E5%9F%BA%E7%A1%80%E7%AF%87%E3%80%91/undefined/">关于java.lang.String的intern()方法【基础篇】</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/17/Android-Studio-2-4-Preview-1-%E5%8F%91%E5%B8%83%E4%BA%86%EF%BC%81/undefined/">Android Studio 2.4 Preview 1 发布了！</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/15/Android-Studio-2-3%E5%85%A8%E9%9D%A2%E8%A7%A3%E6%9E%90/undefined/">Android Studio 2.3全面解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/13/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E7%BB%93%E7%89%88%EF%BC%89%E3%80%8B6-3%E4%B9%8B%E6%9C%8D%E5%8A%A1%E5%99%A8/undefined/">《阿里巴巴Java开发手册（终结版）》6-3之服务器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/08/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E7%BB%93%E7%89%88%EF%BC%89%E3%80%8B6-2%E4%B9%8B%E4%BA%8C%E6%96%B9%E5%BA%93%E8%A7%84%E7%BA%A6/undefined/">《阿里巴巴Java开发手册（终结版）》6-2之二方库规约</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/08/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E7%BB%93%E7%89%88%EF%BC%89%E3%80%8B6-1%E4%B9%8B%E5%BA%94%E7%94%A8%E5%88%86%E5%B1%82/undefined/">《阿里巴巴Java开发手册（终结版）》6-1之应用分层</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/03/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E7%BB%93%E7%89%88%EF%BC%89%E3%80%8B5-4%E4%B9%8BORM%E6%98%A0%E5%B0%84/undefined/">《阿里巴巴Java开发手册（终结版）》5-4之ORM映射</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/03/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E7%BB%93%E7%89%88%EF%BC%89%E3%80%8B5-3%E4%B9%8BSQL%E8%AF%AD%E5%8F%A5/undefined/">《阿里巴巴Java开发手册（终结版）》5-3之SQL语句</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E7%BB%93%E7%89%88%EF%BC%89%E3%80%8B5-2%E4%B9%8B%E7%B4%A2%E5%BC%95%E8%A7%84%E7%BA%A6/undefined/">《阿里巴巴Java开发手册（终结版）》5-2之索引规约</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B5-1%E4%B9%8B%E5%BB%BA%E8%A1%A8%E8%A7%84%E7%BA%A6/undefined/">《阿里巴巴Java开发手册（终结版）》5-1之建表规约</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B2-2%E4%B9%8B%E6%97%A5%E5%BF%97%E8%A7%84%E7%BA%A6/undefined/">《阿里巴巴Java开发手册（终极版）》2-2之日志规约</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B2-1%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/undefined/">《阿里巴巴Java开发手册（终极版）》2-1之异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/24/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B1-9%E4%B9%8B%E5%85%B6%E5%AE%83/undefined/">《阿里巴巴Java开发手册（终极版）》1-9之其它</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/24/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B1-8%E4%B9%8B%E6%B3%A8%E9%87%8A%E8%A7%84%E7%BA%A6/undefined/">《阿里巴巴Java开发手册（终极版）》1-8之注释规约</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B1-7%E4%B9%8B%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/undefined/">《阿里巴巴Java开发手册（终极版）》1-7之控制语句</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/23/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B1-6%E4%B9%8B%E5%B9%B6%E5%8F%91%E5%A4%84%E7%90%86/undefined/">《阿里巴巴Java开发手册（终极版）》1-6之并发处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B1-5%E4%B9%8B%E9%9B%86%E5%90%88%E5%A4%84%E7%90%86/undefined/">《阿里巴巴Java开发手册（终极版）》1-5之集合处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/20/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B1-4%E4%B9%8BOOP%E8%A7%84%E7%BA%A6/undefined/">《阿里巴巴Java开发手册（终极版）》1-4之OOP规约</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/16/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B1-3%E4%B9%8B%E4%BB%A3%E7%A0%81%E6%A0%BC%E5%BC%8F/undefined/">《阿里巴巴Java开发手册（终极版）》1-3之格式规约</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/15/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B1-2%E4%B9%8B%E5%B8%B8%E9%87%8F%E5%AE%9A%E4%B9%89/undefined/">《阿里巴巴Java开发手册（终极版）》1-2之常量定义</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/10/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89%E3%80%8B1-1%E4%B9%8B%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/undefined/">《阿里巴巴Java开发手册（终极版）》1-1之命名规范</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/10/%E3%80%8A%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%E3%80%8B%E4%B9%8B%E7%BB%88%E6%9E%81%E7%89%88%E4%BF%AE%E8%AE%A2%EF%BC%81/undefined/">《阿里巴巴Java开发手册》之终极版修订！</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/19/Java%E5%AF%B9%E8%B1%A1%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8%E5%88%86%E6%9E%90/undefined/">Java对象内存占用分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/19/Android%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B9%8Benum/undefined/">Android知识点之enum</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/19/Android%E7%9F%A5%E8%AF%86%E7%82%B9%E4%B9%8BTablayout/undefined/">Android知识点之Tanlayout</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/14/Android%E4%B9%8B%E5%BA%94%E7%94%A8%E6%98%AF%E5%90%A6%E6%9C%89%E5%90%AF%E5%8A%A8%E9%A1%B5%E9%9D%A2-%E5%85%B7%E6%9C%89CATEGORY-LAUNCHER%E5%B1%9E%E6%80%A7/undefined/">Android之应用是否有启动页面(具有CATEGORY_LAUNCHER属性)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/14/Android%E5%88%A4%E6%96%AD%E6%9F%90%E4%B8%AA%E5%BA%94%E7%94%A8%E6%98%AF%E5%90%A6%E5%AE%89%E8%A3%85/undefined/">Android判断某个应用是否安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/12/ARGB-8888-ALPHA-8-ARGB-4444-RGB-565%E7%9A%84%E5%8C%BA%E5%88%AB/undefined/">ARGB_8888-ALPHA_8-ARGB_4444-RGB_565的区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/Retrofit-1-%E4%B9%8B-log%E5%BE%97%E8%AF%B7%E6%B1%82%E4%B8%8E%E5%93%8D%E5%BA%94/undefined/">Retrofit 1 之 log得请求与响应</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/08/Retrofit-2-%E4%B9%8B-log%E5%BE%97%E8%AF%B7%E6%B1%82%E4%B8%8E%E5%93%8D%E5%BA%94/undefined/">Retrofit 2 之 log得请求与响应</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/07/Retrofit-1-x%E5%92%8CRetrofit-2-x%E7%9A%84%E4%B8%8D%E5%90%8C/undefined/">Retrofit 1.x和Retrofit 2.x的不同</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/27/Android%E5%BC%80%E5%8F%91%E4%B9%8B%5B%E6%9A%97%E7%A0%81%5D/undefined/">Android开发之[暗码]</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/19/Android-Studio-Error-running-app-Instant-Run-requires-Tools-Android-Enable-ADB-integration-to-be-enabled/undefined/">Android Studio: Error running app: Instant Run requires 'Tools | Android | Enable ADB integration' to be enabled</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/11/Android-Studio-2-2-%E6%96%B0%E7%89%B9%E6%80%A7/undefined/">Android Studio 2.2 新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/10/Android-Studio%E5%8D%87%E7%B4%9A2-2%E6%89%93%E5%8C%85%E6%8A%A5%E9%94%99-xxx-stripped-ap-specified-for-property-resourceFile-does-not-exist/undefined/">Android Studio升級2.2打包报错 - ...xxx-stripped.ap_ specified for property resourceFile does not exist</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/16/Android-Studio-Intellij-%E7%BF%BB%E8%AF%91%E6%8F%92%E4%BB%B6-Easy%20Translation/undefined/">Android Studio | Intellij 翻译插件 Easy Translation</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/10/%E5%85%B3%E4%BA%8EOpenJDK%E4%BD%A0%E4%BA%86%E8%A7%A3%E5%A4%9A%E5%B0%91%EF%BC%9F/undefined/">关于OpenJDK你了解多少？</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/21/getDimension%E3%80%81getDimensionPixelOffset%E3%80%81getDimensionPixelSize%E5%88%9D%E7%BA%A7%E7%AF%87/undefined/">getDimension、getDimensionPixelOffset、getDimensionPixelSize初级篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/21/Android%E5%88%B7%E6%9C%BA-%E5%91%BD%E4%BB%A4%E7%AF%87/undefined/">Android刷机-命令篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/21/Android%E5%88%B7%E6%9C%BA-%E5%9F%BA%E7%A1%80%E7%AF%87/undefined/">Android刷机-基础篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/02/Http%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B/undefined/">Http协议简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/01/%E5%AE%9E%E7%94%A8bat%E8%84%9A%E6%9C%AC-%E7%AC%94%E8%AE%B0/undefined/">实用bat脚本[笔记]</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/01/Android%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89actionbar%5B%E7%AC%94%E8%AE%B0%5D/undefined/">Android之自定义actionbar[笔记]</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/19/Java%E4%B9%8BHashMap%E5%92%8CHashTable%E7%9A%84%E4%B8%8D%E5%90%8C/undefined/">Java之HashMap和HashTable的不同</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/19/Android%E4%B9%8BMatrix/undefined/">Android之Matrix</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/31/Android-Material-Design%E5%85%A5%E9%97%A8/undefined/">Android Material Design入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/30/Android-Material-Design-Floating-Labels-for-EditText/undefined/">Android Material Design - Floating Labels for EditText</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/28/Android-Material-Design-Tabs/undefined/">Android Material Design - Tabs</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/24/Android-Material-Design-Snackbar/undefined/">Android Material Design - Snackbar</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/24/Parcelable-vs-Serializable/undefined/">Parcelable vs Serializable</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/23/Android-Studio-Tips-of-the-Day(2)/undefined/">Android Studio Tips of the Day(2)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/22/Android-Studio-Tips-of-the-Day(1)/undefined/">Android Studio Tips of the Day(1)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/12/09/Java%E7%9A%84%E8%BF%9E%E6%8E%A5%E4%B8%8E%E5%88%9D%E5%A7%8B%E5%8C%96/undefined/">Java的连接与初始化</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/25/%E9%80%9A%E8%BF%87Swiftype%E5%AE%9E%E7%8E%B0hexo%E7%AB%99%E5%86%85%E6%90%9C%E7%B4%A2/undefined/">通过Swiftype实现hexo站内搜索</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/25/Win10-%E5%BF%AB%E6%8D%B7%E9%94%AE%E4%B9%8BWin%E7%BB%84%E5%90%88%E9%94%AE/undefined/">[Win10]快捷键之Win组合键</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/24/%E6%8E%A8%E8%8D%90-Markdown%E7%BC%96%E8%BE%91%E5%99%A8/undefined/">[推荐]Markdown编辑器(PC+手机端)</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/24/Java%E4%B9%8B%E9%9D%99%E6%80%81%E7%BB%91%E5%AE%9A%E5%92%8C%E5%8A%A8%E6%80%81%E7%BB%91%E5%AE%9A/undefined/">Java之静态绑定和动态绑定</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/23/Java%E9%87%8D%E8%BD%BD%E5%8C%B9%E9%85%8D%E4%BC%98%E5%85%88%E7%BA%A7/undefined/">Java重载匹配优先级</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/18/Android%E4%B9%8BLog%E6%B7%B7%E6%B7%86/undefined/">Android之Log混淆</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/16/%E8%A7%A3%E5%86%B3Android-Studio%E4%B8%ADTerminal%E6%97%A0%E6%B3%95%E8%BE%93%E5%85%A5%E7%9A%84%E9%97%AE%E9%A2%98/undefined/">解决Android Studio中Terminal无法输入的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/11/13/Android%E4%B9%8B%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0ButterKnife%E4%B8%AD%E7%9A%84injectView%E7%9A%84%E6%96%B9%E6%A1%88/undefined/">Android之简单实现ButterKnife中的injectView的方案</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2021 xiaofeng
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" rel="external nofollow">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank" rel="external nofollow">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >本站访客量: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span> | </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+				
+                    <span class="post-count"> | 总字数统计：93.5k</span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-70168817-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a76cfedb91334def30cb7ff4264b0c18";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+    <script type="text/javascript">
+      window.onload = function(){
+        document.getElementById("search").onclick = function(){
+            console.log("search")
+            search();
+        }
+      }
+      function search(){
+        (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+        (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+        e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+        })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+        _st('install','w7ca3xWstLkz2UvAeyAJ','2.0.0');
+      }
+    </script>
+
+  </div>
+  <!--  -->
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
